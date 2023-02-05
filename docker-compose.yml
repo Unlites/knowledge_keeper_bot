@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  bot:
+    container_name: bot
+    build: ./
+    depends_on:
+      - redis
+    env_file:
+      - .env
+    volumes:
+      - .:/bot
+    restart: always
+  redis:
+    container_name: redis
+    image: redis:7.0.8-alpine
+    restart: always
+    ports:
+      - 6379:6379
+    command: redis-server --save 20 1 --requirepass knowledge_bot_redis_password
+    volumes:
+      - .redis_data:/data
