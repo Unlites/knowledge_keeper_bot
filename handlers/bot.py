@@ -1,6 +1,7 @@
-from bot.bot import bot
-from telebot import types
+from telebot import types, TeleBot
+from os import environ as env
 
+bot = TeleBot(env['BOT_TOKEN'])
 
 bot.set_my_commands([
     types.BotCommand("/new_record", "Create a new record")
