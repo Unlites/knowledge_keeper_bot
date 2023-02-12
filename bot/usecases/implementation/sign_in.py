@@ -1,7 +1,7 @@
 from bot.dto.user import UserDTO
 from bot.infrastructure.api.knowledge_keeper_api.auth import KnowledgeKeeperAPIAuth
 from bot.usecases.auth.sign_in import SignInUsecase
-from bot.usecases.result import UsecaseResult
+from bot.dto.usecase_result import UsecaseResult
 
 
 class SignInUsecaseImpl(SignInUsecase):
