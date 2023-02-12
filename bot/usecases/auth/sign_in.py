@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from bot.dto.user import UserDTO
-from bot.infrastructure.api.knowledge_keeper_api.auth import KnowledgeKeeperAPIAuth
+from bot.usecases.result import UsecaseResult
 
 
-class SignInUseCase(ABC):
+class SignInUsecase(ABC):
     @abstractmethod
-    def __call__(self, userDTO: UserDTO) -> None:
+    def __call__(self, userDTO: UserDTO) -> UsecaseResult:
         pass
