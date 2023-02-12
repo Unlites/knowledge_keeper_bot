@@ -1,7 +1,9 @@
 from dotenv import load_dotenv
-from handlers.bot import bot
+from bot.bot import create_bot, register_handlers, run
 
 load_dotenv()
 
 if __name__ == '__main__':
-    bot.infinity_polling()
+    bot = create_bot()
+    register_handlers(bot)
+    run(bot)
