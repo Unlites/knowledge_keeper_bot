@@ -3,13 +3,22 @@ version: '3.8'
 services:
   bot:
     container_name: bot
-    build: ./
+    build: .
     depends_on:
+      - auth
       - redis
     env_file:
       - .env
     volumes:
       - .:/bot
+    restart: always
+  auth:
+    container_name: auth
+    build: ./auth_server
+    volumes:
+      - ./auth_server:/auth
+    ports:
+      - 5000:5000
     restart: always
   redis:
     container_name: redis
