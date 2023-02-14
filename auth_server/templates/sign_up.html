@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Login</title>
+   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+   <style>
+      body {
+         color: var(--tg-theme-text-color);
+         background: var(--tg-theme-bg-color);
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         font-size: 18px;
+      }
+      .input {
+        margin-bottom: 15px;
+      }
+   </style>
+</head>
+
+<body>
+   <h1>Sign up</h1>
+   <div class="input">Username <input id="username" type="text"/></div>
+   <div class="input">Password <input id="password" type="password"/></div>
+   <div class="input">Confirm password <input id="confirm_password" type="password"/></div>
+</body>
+
+<script>
+   let tg = window.Telegram.WebApp; 
+
+   tg.expand();
+
+   tg.MainButton.text = "Sign up";
+   tg.MainButton.isVisible = true;
+
+   Telegram.WebApp.onEvent('mainButtonClicked', function() {
+    username = document.getElementById("username").value;
+    password = document.getElementById("password").value;
+    confirmedPassword = document.getElementById("confirm_password").value;
+
+      tg.sendData(JSON.stringify({
+         username: username,
+         password: password,
+         confirm_password: confirm_password,
+         operation: "sign_up"
+      }));
+   });
+
+</script>
+</html>
