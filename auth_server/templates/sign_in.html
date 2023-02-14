@@ -36,8 +36,15 @@
    tg.MainButton.text = "Sign in";
    tg.MainButton.isVisible = true;
 
-   Telegram.WebApp.onEvent('mainButtonClicked', function(){
-      tg.sendData("some string that we need to send"); 
+   Telegram.WebApp.onEvent('mainButtonClicked', function() {
+      username = document.getElementById("username").value;
+      password = document.getElementById("password").value;
+
+      tg.sendData(JSON.stringify({
+         username: username,
+         password: password,
+         operation: "sign_in"
+      }));
    });
 
 </script>
