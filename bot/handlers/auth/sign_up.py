@@ -11,11 +11,6 @@ class SignUpHandler:
         self._handle(message)
     
     def _handle(self, message: types.Message) -> None:
-        # data = json.loads(message.web_app_data.data)
-        
-        # if data["operation"] != "sign_up":
-        #     return
-            
         result = self._usecase(None)
         markup = types.ReplyKeyboardRemove()
         if result.success:

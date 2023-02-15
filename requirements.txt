@@ -2,3 +2,4 @@ pyTelegramBotAPI
 redis
 python-dotenv
 punq
+pydantic
