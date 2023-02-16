@@ -4,13 +4,13 @@ from pydantic import ValidationError
 from telebot import types, TeleBot
 from bot.di_container.container import di_container
 from bot.dto.user import UserSignUpDTO
-from bot.usecases.auth.sign_in import SignInUsecase
+from bot.usecases.auth.sign_up import SignUpUsecase
 
 
 class SignUpHandler:
     def __init__(self, message: types.Message, bot: TeleBot) -> None:
         self._bot = bot
-        self._usecase = di_container.resolve(SignInUsecase)
+        self._usecase = di_container.resolve(SignUpUsecase)
         self._handle(message)
     
     def _handle(self, message: types.Message) -> None:

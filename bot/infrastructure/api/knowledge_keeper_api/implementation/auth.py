@@ -11,6 +11,9 @@ class KnowledgeKeeperAPIAuthImpl(KnowledgeKeeperAPIAuth):
 
     def sign_in(self, user: User):
         pass
+    
+    def sign_up(self, user: User):
+        pass
 
     def refresh(self, tokens: Tokens):
         pass
