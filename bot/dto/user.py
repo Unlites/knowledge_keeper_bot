@@ -1,13 +1,12 @@
-from pydantic import Field, validator
-from pydantic.dataclasses import dataclass
+from pydantic import BaseModel, Field, validator
 
-@dataclass
-class UserSignInDTO:
+
+class UserSignInDTO(BaseModel):
     username: str = Field(min_length=2, max_length=20)
     password: str = Field(min_length=6, max_length=20)
 
-@dataclass
-class UserSignUpDTO:
+
+class UserSignUpDTO(BaseModel):
     username: str = Field(min_length=2, max_length=20)
     password: str = Field(min_length=6, max_length=20)
     confirm_password: str = Field(min_length=1)

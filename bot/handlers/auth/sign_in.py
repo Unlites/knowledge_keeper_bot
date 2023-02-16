@@ -25,9 +25,9 @@ class SignInHandler:
             )
             return
 
-        result = self._usecase(userDTO)
+        result = self._usecase(message.chat.id, userDTO)
         markup = types.ReplyKeyboardRemove()
-        
+
         if result.success:
             self._bot.send_message(
                 message.chat.id, 
