@@ -1,5 +1,5 @@
 import json
-from  bot.handlers import message_converting
+from bot.handlers import message_converting
 from pydantic import ValidationError
 from telebot import types, TeleBot
 from bot.di_container.container import di_container
@@ -15,15 +15,19 @@ class SignInHandler:
     
     def _handle(self, message: types.Message) -> None:
         data = json.loads(message.web_app_data.data)
+
         try:
             userDTO = UserSignInDTO(username=data["username"], password=data["password"])
         except ValidationError as e:
             self._bot.send_message(
                 message.chat.id, 
-                f"Input values is incorrect: {message_converting.validation_errors(e.errors())}"
+                f"Input values is incorrect:{message_converting.validation_errors(e.errors())}"
             )
+            return
+
         result = self._usecase(userDTO)
         markup = types.ReplyKeyboardRemove()
+        
         if result.success:
             self._bot.send_message(
                 message.chat.id, 
