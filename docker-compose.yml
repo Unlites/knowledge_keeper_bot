@@ -12,6 +12,8 @@ services:
     volumes:
       - .:/bot
     restart: always
+    networks:
+      - knowledge_keeper_network
   auth:
     container_name: auth
     build: ./auth_server
@@ -20,6 +22,8 @@ services:
     ports:
       - 5000:5000
     restart: always
+    networks:
+      - knowledge_keeper_network
   redis:
     container_name: redis
     image: redis:7.0.8-alpine
@@ -29,3 +33,9 @@ services:
     command: redis-server --save 20 1 --requirepass knowledge_bot_redis_password
     volumes:
       - .redis_data:/data
+    networks:
+      - knowledge_keeper_network
+      
+networks:
+  knowledge_keeper_network: 
+    name: knowledge_keeper_network

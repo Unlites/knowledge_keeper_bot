@@ -1,9 +1,10 @@
 class KnowledgeKeeperAPIError(Exception):
     def __init__(self, detail):
+        self.default_message = None
         self.detail = detail
     
     def __str__(self):
-        return self.detail
+        return self.default_message or self.detail
 
 
 class KnowledgeKeeperAPIUnauthorized(Exception):
@@ -12,10 +13,7 @@ class KnowledgeKeeperAPIUnauthorized(Exception):
 
 class KnowledgeKeeperAPIConnectionError(KnowledgeKeeperAPIError):
     def __init__(self, detail):
-        self.message = "can't connect to Knowledge Keeper API"
+        self.default_message = "can't connect to Knowledge Keeper API"
         self.detail = detail
-    
-    def __str__(self):
-        return self.message
 
 
