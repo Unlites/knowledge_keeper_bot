@@ -28,13 +28,13 @@ class SignUpHandler:
             )
             return
 
-        result = self._usecase(userDTO)
+        result = self._usecase(message.chat.id, userDTO)
         markup = types.ReplyKeyboardRemove()
         
         if result.success:
             self._bot.send_message(
                 message.chat.id, 
-                "Sign up is successful!", 
+                "Sign up is successful! You can use the bot.", 
                 reply_markup=markup
             )
         else:

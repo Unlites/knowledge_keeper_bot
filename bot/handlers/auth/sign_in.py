@@ -31,7 +31,7 @@ class SignInHandler:
         if result.success:
             self._bot.send_message(
                 message.chat.id, 
-                "Sign in is successful!", 
+                "Sign in is successful! You can use the bot.", 
                 reply_markup=markup
             )
         else:

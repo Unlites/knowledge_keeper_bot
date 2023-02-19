@@ -19,7 +19,7 @@ class SignInUsecaseImpl(SignInUsecase):
                 password=userDTO.password
             )
             tokens = self._api.sign_in(user)
-            return UsecaseResult(tokens)
+            return UsecaseResult()
         except KnowledgeKeeperAPIError as e:
             self._logger.error(f"{telegram_id}: {e.detail}")
             return UsecaseResult(e, success=False)

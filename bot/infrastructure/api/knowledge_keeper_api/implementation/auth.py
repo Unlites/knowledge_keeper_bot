@@ -30,8 +30,18 @@ class KnowledgeKeeperAPIAuthImpl(KnowledgeKeeperAPIAuth):
         except ConnectionError as e:
             raise KnowledgeKeeperAPIConnectionError(e)
     
-    def sign_up(self, user: User):
-        pass
+    def sign_up(self, user: User) -> None:
+        try:
+            response = requests.post(
+                f"{self._url}/sign_up",
+                data=user.json()
+            )
+            
+            data = response.json()['data']
+            if response.status_code != HTTPStatus.OK:
+                raise KnowledgeKeeperAPIError(data)
+        except ConnectionError as e:
+            raise KnowledgeKeeperAPIConnectionError(e)
 
     def refresh(self, tokens: Tokens):
         pass
