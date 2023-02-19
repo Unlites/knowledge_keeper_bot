@@ -27,7 +27,7 @@ class SignUpUsecaseImpl(SignUpUsecase):
             )
             self._api.sign_up(user)
             tokens = self._api.sign_in(user)
-            self._token_repo.set_tokens(tokens)
+            self._token_repo.set_tokens(telegram_id, tokens)
             return UsecaseResult()
         except KnowledgeKeeperAPIError as e:
             self._logger.error(f"{telegram_id}: {e.detail}")
