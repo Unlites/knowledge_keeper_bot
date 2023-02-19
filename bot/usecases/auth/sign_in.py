@@ -5,5 +5,5 @@ from bot.dto.usecase_result import UsecaseResult
 
 class SignInUsecase(ABC):
     @abstractmethod
-    def __call__(self, userDTO: UserSignInDTO) -> UsecaseResult:
+    def __call__(self, telegram_id, userDTO: UserSignInDTO) -> UsecaseResult:
         pass

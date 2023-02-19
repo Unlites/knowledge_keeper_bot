@@ -1,4 +1,5 @@
 from os import environ as env
+import logging
 
 
 class Config:
@@ -9,3 +10,4 @@ class Config:
     API_URL=env['API_URL']
     SIGN_IN_URL=env['SIGN_IN_URL']
     SIGN_UP_URL=env['SIGN_UP_URL']
+    LOG_LEVEL=logging.INFO

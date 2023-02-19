@@ -5,5 +5,5 @@ from bot.dto.usecase_result import UsecaseResult
 
 class SignUpUsecase(ABC):
     @abstractmethod
-    def __call__(self, userDTO: UserSignUpDTO) -> UsecaseResult:
+    def __call__(self, telegram_id, userDTO: UserSignUpDTO) -> UsecaseResult:
         pass
