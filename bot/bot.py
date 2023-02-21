@@ -1,5 +1,6 @@
 import json
 from telebot import types, TeleBot
+from bot.handlers.record.create import CreateRecordHandler
 from bot.handlers.start import StartHandler
 from bot.handlers.auth.sign_in import SignInHandler
 from bot.handlers.auth.sign_up import SignUpHandler
@@ -10,7 +11,7 @@ def create_bot() -> TeleBot:
     bot = TeleBot(Config.BOT_TOKEN)
 
     bot.set_my_commands([
-        types.BotCommand("/new_record", "Create a new record"),
+        types.BotCommand("/create_record", "Create a new record"),
         types.BotCommand("/get_all_records", "Get all records"),
         types.BotCommand("/get_record", "Get record"),
         types.BotCommand("/delete_record", "Delete a record"),
@@ -22,7 +23,8 @@ def create_bot() -> TeleBot:
 
 def register_handlers(bot: TeleBot) -> None:
     command_handlers = {
-        "start": StartHandler
+        "start": StartHandler,
+        "create_record": CreateRecordHandler
     }
 
     web_app_handlers = {

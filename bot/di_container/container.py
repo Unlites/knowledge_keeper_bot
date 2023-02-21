@@ -1,6 +1,8 @@
 import punq
 from logging import Logger
 from redis import Redis
+from bot.usecases.implementation.record.create import CreateRecordUsecaseImpl
+from bot.usecases.record.create import CreateRecordUsecase
 from config.config import Config
 from logger.logger import create_logger
 from bot.infrastructure.repository.token_repo.implementation.token_redis import TokenRepositoryRedis
@@ -9,8 +11,8 @@ from bot.infrastructure.api.knowledge_keeper_api.implementation.auth import Know
 from bot.infrastructure.api.knowledge_keeper_api.auth import KnowledgeKeeperAPIAuth
 from bot.usecases.auth.sign_in import SignInUsecase
 from bot.usecases.auth.sign_up import SignUpUsecase
-from bot.usecases.implementation.sign_in import SignInUsecaseImpl
-from bot.usecases.implementation.sign_up import SignUpUsecaseImpl
+from bot.usecases.implementation.auth.sign_in import SignInUsecaseImpl
+from bot.usecases.implementation.auth.sign_up import SignUpUsecaseImpl
 
 
 di_container = punq.Container()
@@ -29,3 +31,5 @@ di_container.register(TokenRepository, TokenRepositoryRedis)
 di_container.register(KnowledgeKeeperAPIAuth, KnowledgeKeeperAPIAuthImpl)
 di_container.register(SignInUsecase, SignInUsecaseImpl)
 di_container.register(SignUpUsecase, SignUpUsecaseImpl)
+
+di_container.register(CreateRecordUsecase, CreateRecordUsecaseImpl)
