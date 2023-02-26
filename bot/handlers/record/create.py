@@ -1,7 +1,9 @@
 from telebot import types, TeleBot
 from bot.di_container.container import di_container
 from bot.dto.record import CreateRecordDTO
-from bot.handlers.utils.validation import validation_handler
+from bot.dto.usecase_result import UsecaseStatus
+from bot.handlers.markups import auth_markup
+from bot.handlers.middleware import validation
 from bot.usecases.record.create import CreateRecordUsecase
 
 
@@ -19,7 +21,7 @@ class CreateRecordHandler:
         self._bot.send_message(message.chat.id, "Enter record topic")
         self._bot.register_next_step_handler(message, self._set_topic)
 
-    @validation_handler
+    @validation
     def _set_topic(self, message: types.Message) -> None:
         self._dto.topic = message.text
         self._ask_title(message)
@@ -28,7 +30,7 @@ class CreateRecordHandler:
         self._bot.send_message(message.chat.id, "Enter record title")
         self._bot.register_next_step_handler(message, self._set_title)
 
-    @validation_handler
+    @validation
     def _set_title(self, message: types.Message) -> None:
         self._dto.title = message.text
         self._ask_content(message)
@@ -37,10 +39,27 @@ class CreateRecordHandler:
         self._bot.send_message(message.chat.id, "Enter record content")
         self._bot.register_next_step_handler(message, self._set_content)
 
-    @validation_handler
+    @validation
     def _set_content(self, message: types.Message) -> None:
         self._dto.content = message.text
         self._create_record(message)
         
     def _create_record(self, message: types.Message) -> None:
-        self._usecase(message.chat.id, self._dto)
+        result = self._usecase(message.chat.id, self._dto)
+        if result.status == UsecaseStatus.SUCCESS:
+            self._bot.send_message(
+                message.chat.id,
+                "Record created successfully!"
+            )
+        elif result.status == UsecaseStatus.UNAUTHORIZED:
+            self._bot.send_message(
+                message.chat.id,
+                "You have to sign in again",
+                reply_markup=auth_markup()
+            )
+        else:
+            self._bot.send_message(
+                message.chat.id,
+                f"Failed to create record - {result.data}"
+            )
+            

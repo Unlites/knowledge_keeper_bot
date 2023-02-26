@@ -3,7 +3,7 @@ from telebot import types
 from bot.handlers.utils import message_converting
 
 
-def validation_handler(func):
+def validation(func):
     def decorator(self, message: types.Message, *args, **kwargs):
         try:
             func(self, message, *args, **kwargs)

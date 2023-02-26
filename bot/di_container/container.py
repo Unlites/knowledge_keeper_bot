@@ -1,6 +1,8 @@
 import punq
 from logging import Logger
 from redis import Redis
+from bot.infrastructure.api.knowledge_keeper_api.implementation.record import KnowledgeKeeperAPIRecordImpl
+from bot.infrastructure.api.knowledge_keeper_api.record import KnowledgeKeeperAPIRecord
 from bot.usecases.implementation.record.create import CreateRecordUsecaseImpl
 from bot.usecases.record.create import CreateRecordUsecase
 from config.config import Config
@@ -32,4 +34,5 @@ di_container.register(KnowledgeKeeperAPIAuth, KnowledgeKeeperAPIAuthImpl)
 di_container.register(SignInUsecase, SignInUsecaseImpl)
 di_container.register(SignUpUsecase, SignUpUsecaseImpl)
 
+di_container.register(KnowledgeKeeperAPIRecord, KnowledgeKeeperAPIRecordImpl)
 di_container.register(CreateRecordUsecase, CreateRecordUsecaseImpl)
