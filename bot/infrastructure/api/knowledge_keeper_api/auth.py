@@ -7,7 +7,7 @@ class KnowledgeKeeperAPIAuth(ABC):
     @abstractmethod
     def sign_in(self, user: User) -> Tokens:
         pass
-    
+
     @abstractmethod
     def sign_up(self, user: User) -> None:
         pass

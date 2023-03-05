@@ -12,11 +12,11 @@ class SignInHandler:
         self._bot = bot
         self._usecase = di_container.resolve(SignInUsecase)
         self._handle(message)
-    
+
     @validation
     def _handle(self, message: types.Message) -> None:
         data = json.loads(message.web_app_data.data)
-        
+
         userDTO = UserSignInDTO(username=data["username"], password=data["password"])
 
         result = self._usecase(message.chat.id, userDTO)
@@ -24,9 +24,9 @@ class SignInHandler:
 
         if result.status == UsecaseStatus.SUCCESS:
             self._bot.send_message(
-                message.chat.id, 
-                "Sign in is successful! You can use this bot.", 
-                reply_markup=markup
+                message.chat.id,
+                "Sign in is successful! You can use this bot.",
+                reply_markup=markup,
             )
         else:
             self._bot.send_message(message.chat.id, f"Sign in is failed: {result.data}")

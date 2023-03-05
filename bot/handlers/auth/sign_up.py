@@ -12,7 +12,7 @@ class SignUpHandler:
         self._bot = bot
         self._usecase = di_container.resolve(SignUpUsecase)
         self._handle(message)
-    
+
     @validation
     def _handle(self, message: types.Message) -> None:
         data = json.loads(message.web_app_data.data)
@@ -20,17 +20,17 @@ class SignUpHandler:
         userDTO = UserSignUpDTO(
             username=data["username"],
             password=data["password"],
-            confirm_password=data["confirm_password"]
+            confirm_password=data["confirm_password"],
         )
 
         result = self._usecase(message.chat.id, userDTO)
         markup = types.ReplyKeyboardRemove()
-        
+
         if result.status == UsecaseStatus.SUCCESS:
             self._bot.send_message(
-                message.chat.id, 
-                "Sign up is successful! You can use this bot.", 
-                reply_markup=markup
+                message.chat.id,
+                "Sign up is successful! You can use this bot.",
+                reply_markup=markup,
             )
         else:
             self._bot.send_message(message.chat.id, f"Sign up is failed: {result.data}")

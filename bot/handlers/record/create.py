@@ -25,7 +25,7 @@ class CreateRecordHandler:
     def _set_topic(self, message: types.Message) -> None:
         self._dto.topic = message.text
         self._ask_title(message)
-    
+
     def _ask_title(self, message: types.Message) -> None:
         self._bot.send_message(message.chat.id, "Enter record title")
         self._bot.register_next_step_handler(message, self._set_title)
@@ -43,23 +43,16 @@ class CreateRecordHandler:
     def _set_content(self, message: types.Message) -> None:
         self._dto.content = message.text
         self._create_record(message)
-        
+
     def _create_record(self, message: types.Message) -> None:
         result = self._usecase(message.chat.id, self._dto)
         if result.status == UsecaseStatus.SUCCESS:
-            self._bot.send_message(
-                message.chat.id,
-                "Record created successfully!"
-            )
+            self._bot.send_message(message.chat.id, "Record created successfully!")
         elif result.status == UsecaseStatus.UNAUTHORIZED:
             self._bot.send_message(
-                message.chat.id,
-                "You have to sign in again",
-                reply_markup=auth_markup()
+                message.chat.id, "You have to sign in!", reply_markup=auth_markup()
             )
         else:
             self._bot.send_message(
-                message.chat.id,
-                f"Failed to create record - {result.data}"
+                message.chat.id, f"Failed to create record - {result.data}"
             )
-            

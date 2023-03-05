@@ -1,6 +1,6 @@
 venv/
 **/__pycache__
 .git/
-.gitignore
 .redis_data/
+.env
 pyrightconfig.json

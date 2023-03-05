@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
 
 
 class CreateRecordDTO(BaseModel):
@@ -8,3 +8,10 @@ class CreateRecordDTO(BaseModel):
 
     class Config:
         validate_assignment = True
+
+
+class GetRecordDTO(BaseModel):
+    id: int
+    topic: str
+    title: str
+    content: str

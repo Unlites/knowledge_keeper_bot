@@ -9,8 +9,9 @@ def validation(func):
             func(self, message, *args, **kwargs)
         except ValidationError as e:
             self._bot.send_message(
-                message.chat.id, 
+                message.chat.id,
                 f"Input values is incorrect:\
-                {message_converting.validation_errors(e.errors())}"
+                {message_converting.validation_errors(e.errors())}",
             )
+
     return decorator

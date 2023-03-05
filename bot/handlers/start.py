@@ -8,8 +8,9 @@ class StartHandler:
         self._handle(message)
 
     def _handle(self, message: types.Message) -> None:
-        self._bot.send_message(message.chat.id, 
-            "Welcome! You have to sign in. Press button 'Sign In' for this or 'Sign Up'" +\
-            " if you need to create a new account",
-            reply_markup=auth_markup()
+        self._bot.send_message(
+            message.chat.id,
+            "Welcome! You have to sign in. Press button 'Sign In' for this or 'Sign Up'"
+            + " if you need to create a new account",
+            reply_markup=auth_markup(),
         )

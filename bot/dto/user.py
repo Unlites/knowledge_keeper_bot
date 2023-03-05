@@ -16,4 +16,3 @@ class UserSignUpDTO(BaseModel):
         if value != values.get("password"):
             raise ValueError("passwords do not match")
         return value
-    

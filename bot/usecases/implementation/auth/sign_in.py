@@ -10,10 +10,10 @@ from bot.dto.usecase_result import UsecaseResult, UsecaseStatus
 
 class SignInUsecaseImpl(SignInUsecase):
     def __init__(
-        self, 
-        logger: Logger, 
+        self,
+        logger: Logger,
         knowledge_keeper_api_auth: KnowledgeKeeperAPIAuth,
-        token_repo: TokenRepository
+        token_repo: TokenRepository,
     ) -> None:
         self._logger = logger
         self._api = knowledge_keeper_api_auth
@@ -21,10 +21,7 @@ class SignInUsecaseImpl(SignInUsecase):
 
     def __call__(self, telegram_id, userDTO: UserSignInDTO) -> UsecaseResult:
         try:
-            user = User(
-                username=userDTO.username,
-                password=userDTO.password
-            )
+            user = User(username=userDTO.username, password=userDTO.password)
             tokens = self._api.sign_in(user)
             self._token_repo.set_tokens(telegram_id, tokens)
             return UsecaseResult()
