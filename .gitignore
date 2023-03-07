@@ -3,4 +3,3 @@ venv/
 .git/
 .redis_data/
 .env
-pyrightconfig.json
