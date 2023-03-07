@@ -1,10 +1,11 @@
 import json
 from telebot import types, TeleBot
 from bot.handlers.record.create import CreateRecordHandler
+from bot.handlers.record.get_by_id import GetRecordByIdHandler
 from bot.handlers.start import StartHandler
 from bot.handlers.auth.sign_in import SignInHandler
 from bot.handlers.auth.sign_up import SignUpHandler
-from bot.handlers.record.search_by_title import SearchByTitleHandler
+from bot.handlers.record.search_by_title import SearchRecordsByTitleHandler
 from config.config import Config
 
 
@@ -26,13 +27,20 @@ def register_handlers(bot: TeleBot) -> None:
     command_handlers = {
         "start": StartHandler,
         "create": CreateRecordHandler,
-        "search": SearchByTitleHandler,
+        "search": SearchRecordsByTitleHandler,
     }
+
+    callback_handlers = {"get_record_by_id": GetRecordByIdHandler}
 
     web_app_handlers = {"sign_in": SignInHandler, "sign_up": SignUpHandler}
 
     for command, handler in command_handlers.items():
         bot.register_message_handler(handler, commands=[command], pass_bot=True)
+
+    for operation, handler in callback_handlers.items():
+        bot.register_callback_query_handler(
+            handler, func=_callback_operation_filter(operation), pass_bot=True
+        )
 
     for operation, handler in web_app_handlers.items():
         bot.register_message_handler(
@@ -45,6 +53,10 @@ def register_handlers(bot: TeleBot) -> None:
 
 def run(bot: TeleBot) -> None:
     bot.infinity_polling()
+
+
+def _callback_operation_filter(operation):
+    return lambda callback: json.loads(callback.data)["operation"] == operation
 
 
 def _web_app_operation_filter(operation):

@@ -8,10 +8,10 @@ from bot.infrastructure.api.errors import (
 from bot.infrastructure.api.knowledge_keeper_api.auth import KnowledgeKeeperAPIAuth
 from bot.infrastructure.api.knowledge_keeper_api.record import KnowledgeKeeperAPIRecord
 from bot.infrastructure.repository.token_repo.token_repo import TokenRepository
-from bot.usecases.record.search_by_title import SearchRecordsByTitleUsecase
+from bot.usecases.record.get_by_id import GetRecordByIdUsecase
 
 
-class SearchRecordsByTitleUsecaseImpl(SearchRecordsByTitleUsecase):
+class GetRecordByIdUsecaseImpl(GetRecordByIdUsecase):
     def __init__(
         self,
         logger: Logger,
@@ -26,7 +26,7 @@ class SearchRecordsByTitleUsecaseImpl(SearchRecordsByTitleUsecase):
         self._tokens_refresh_attempted = False
         self._with_tokens_refresh = False
 
-    def __call__(self, telegram_id, title, limit, offset) -> UsecaseResult:
+    def __call__(self, telegram_id, record_id) -> UsecaseResult:
         try:
             tokens = self._token_repo.get_tokens_by_tg_id(telegram_id)
 
@@ -41,24 +41,18 @@ class SearchRecordsByTitleUsecaseImpl(SearchRecordsByTitleUsecase):
                 tokens = self._auth_api.refresh(tokens.refresh_token)
                 self._token_repo.set_tokens(telegram_id, tokens)
 
-            records = self._record_api.search_by_title(
-                tokens.access_token, title, limit, offset
-            )
+            record = self._record_api.get_by_id(tokens.access_token, record_id)
 
-            record_dtos = []
-            for record in records:
-                record_dtos.append(
-                    GetRecordDTO(
-                        id=record.id,
-                        topic=record.topic,
-                        title=record.title,
-                        content=record.content,
-                    )
-                )
-            return UsecaseResult(record_dtos)
+            record_dto = GetRecordDTO(
+                id=record.id,
+                topic=record.topic,
+                title=record.title,
+                content=record.content,
+            )
+            return UsecaseResult(record_dto)
         except KnowledgeKeeperAPIError as e:
             self._logger.error(f"{telegram_id} - {e.detail}")
             return UsecaseResult(e, status=UsecaseStatus.FAILURE)
         except KnowledgeKeeperAPIUnauthorized:
             self._with_tokens_refresh = True
-            return self.__call__(telegram_id, title, limit, offset)
+            return self.__call__(telegram_id, record_id)

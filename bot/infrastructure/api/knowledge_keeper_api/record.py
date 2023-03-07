@@ -10,3 +10,7 @@ class KnowledgeKeeperAPIRecord(ABC):
     @abstractmethod
     def search_by_title(self, access_token, title, limit, offset) -> list[Record]:
         pass
+
+    @abstractmethod
+    def get_by_id(self, access_token, record_id) -> Record:
+        pass

@@ -3,13 +3,13 @@ from bot.di_container.container import di_container
 from bot.dto.usecase_result import UsecaseStatus
 from bot.handlers.markups import auth_markup, record_titles_markup
 from bot.handlers.utils.pagination import Pagination
-from bot.usecases.record.search_by_title import SearchByTitleUsecase
+from bot.usecases.record.search_by_title import SearchRecordsByTitleUsecase
 
 
-class SearchByTitleHandler:
+class SearchRecordsByTitleHandler:
     def __init__(self, message: types.Message, bot: TeleBot):
         self._bot = bot
-        self._usecase = di_container.resolve(SearchByTitleUsecase)
+        self._usecase = di_container.resolve(SearchRecordsByTitleUsecase)
         self._handle(message)
 
     def _handle(self, message: types.Message):

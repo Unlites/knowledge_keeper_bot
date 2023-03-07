@@ -6,9 +6,13 @@ from bot.infrastructure.api.knowledge_keeper_api.implementation.record import (
 )
 from bot.infrastructure.api.knowledge_keeper_api.record import KnowledgeKeeperAPIRecord
 from bot.usecases.implementation.record.create import CreateRecordUsecaseImpl
+from bot.usecases.implementation.record.get_by_id import GetRecordByIdUsecaseImpl
 from bot.usecases.record.create import CreateRecordUsecase
-from bot.usecases.implementation.record.search_by_title import SearchByTitleUsecaseImpl
-from bot.usecases.record.search_by_title import SearchByTitleUsecase
+from bot.usecases.implementation.record.search_by_title import (
+    SearchRecordsByTitleUsecaseImpl,
+)
+from bot.usecases.record.get_by_id import GetRecordByIdUsecase
+from bot.usecases.record.search_by_title import SearchRecordsByTitleUsecase
 from config.config import Config
 from logger.logger import create_logger
 from bot.infrastructure.repository.token_repo.implementation.token_redis import (
@@ -42,4 +46,5 @@ di_container.register(SignUpUsecase, SignUpUsecaseImpl)
 
 di_container.register(KnowledgeKeeperAPIRecord, KnowledgeKeeperAPIRecordImpl)
 di_container.register(CreateRecordUsecase, CreateRecordUsecaseImpl)
-di_container.register(SearchByTitleUsecase, SearchByTitleUsecaseImpl)
+di_container.register(SearchRecordsByTitleUsecase, SearchRecordsByTitleUsecaseImpl)
+di_container.register(GetRecordByIdUsecase, GetRecordByIdUsecaseImpl)

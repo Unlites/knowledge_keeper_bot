@@ -62,3 +62,26 @@ class KnowledgeKeeperAPIRecordImpl(KnowledgeKeeperAPIRecord):
             return records
         except ConnectionError as e:
             raise KnowledgeKeeperAPIConnectionError(e)
+
+    def get_by_id(self, access_token, record_id) -> Record:
+        try:
+            response = requests.get(
+                f"{self._url}/{record_id}",
+                headers=bearer_authorization(access_token),
+            )
+
+            data = response.json()["data"]
+            if response.status_code == HTTPStatus.UNAUTHORIZED:
+                raise KnowledgeKeeperAPIUnauthorized
+            elif response.status_code != HTTPStatus.OK:
+                raise KnowledgeKeeperAPIError(data)
+
+            return Record(
+                id=data["id"],
+                topic=data["topic"],
+                title=data["title"],
+                content=data["content"],
+            )
+
+        except ConnectionError as e:
+            raise KnowledgeKeeperAPIConnectionError(e)

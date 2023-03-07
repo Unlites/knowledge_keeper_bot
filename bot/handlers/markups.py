@@ -45,7 +45,9 @@ def record_titles_markup(
     for record_dto in record_dtos:
         btn = types.InlineKeyboardButton(
             record_dto.title,
-            callback_data=json.dumps({"operation": "get_record", "id": record_dto.id}),
+            callback_data=json.dumps(
+                {"operation": "get_record_by_id", "id": record_dto.id}
+            ),
         )
         markup.add(btn)
 
