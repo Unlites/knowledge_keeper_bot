@@ -1,8 +1,10 @@
+import json
 from telebot import types, TeleBot
 from bot.di_container.container import di_container
 from bot.dto.usecase_result import UsecaseStatus
+from bot.handlers.callback_data import CallbackOperation
 from bot.handlers.markups import auth_markup, record_titles_markup
-from bot.handlers.utils.pagination import Pagination
+from bot.handlers.pagination import Pagination
 from bot.usecases.record.search_by_title import SearchRecordsByTitleUsecase
 
 
@@ -19,11 +21,19 @@ class SearchRecordsByTitleHandler:
         message = self._bot.send_message(message.chat.id, "Enter searching title")
         self._bot.register_next_step_handler(message, self._search)
 
-    def _search(self, message: types.Message):
-        pagination = Pagination(current_page=1)
+    def _search(
+        self,
+        message: types.Message,
+        input_value=None,
+        current_page=1,
+    ):
+        if not input_value:
+            input_value = message.text
+
+        pagination = Pagination(current_page)
         result = self._usecase(
             message.chat.id,
-            message.text,
+            input_value,
             pagination.limit_for_check_next_page,
             pagination.offset,
         )
@@ -38,10 +48,17 @@ class SearchRecordsByTitleHandler:
             if len(result.data) < pagination.limit:
                 pagination.next_page = 0
 
+            titles_markup = record_titles_markup(result.data)
+            paginated_titles_markup = pagination.paginate(
+                titles_markup,
+                operation=CallbackOperation.SWITCH_PAGE_TITLE,
+                input_value=input_value,
+            )
+
             self._bot.send_message(
                 message.chat.id,
                 "Choose neaded title",
-                reply_markup=record_titles_markup(result.data, pagination),
+                reply_markup=paginated_titles_markup,
             )
         elif result.status == UsecaseStatus.UNAUTHORIZED:
             self._bot.send_message(
@@ -51,3 +68,18 @@ class SearchRecordsByTitleHandler:
             self._bot.send_message(
                 message.chat.id, f"Failed to search records - {result.data}"
             )
+
+
+class TitlesSwitchPageHandler(SearchRecordsByTitleHandler):
+    def __init__(self, callback: types.CallbackQuery, bot: TeleBot):
+        self._bot = bot
+        self._usecase = di_container.resolve(SearchRecordsByTitleUsecase)
+        self._handle(callback)
+
+    def _handle(self, callback: types.CallbackQuery):
+        data = json.loads(callback.data)
+        self._search(
+            callback.message,
+            input_value=data["input_value"],
+            current_page=data["page"],
+        )

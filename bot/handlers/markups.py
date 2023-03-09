@@ -1,7 +1,7 @@
 import json
 from telebot import types
 from bot.dto.record import GetRecordDTO
-from bot.handlers.utils.pagination import Pagination
+from bot.handlers.callback_data import CallbackOperation
 from config.config import Config
 
 
@@ -19,38 +19,19 @@ def auth_markup() -> types.ReplyKeyboardMarkup:
     return markup
 
 
-def _add_pagination_btns(
-    markup: types.InlineKeyboardMarkup, pagination: Pagination
-) -> types.InlineKeyboardMarkup:
-    if pagination.next_page:
-        next_btn = types.InlineKeyboardButton(
-            "Next page", callback_data=pagination.next_page
-        )
-        markup.add(next_btn)
-
-    if pagination.prev_page:
-        prev_btn = types.InlineKeyboardButton(
-            "Previous page", callback_data=pagination.prev_page
-        )
-        markup.add(prev_btn)
-
-    return markup
-
-
-def record_titles_markup(
-    record_dtos: list[GetRecordDTO], pagination: Pagination
-) -> types.InlineKeyboardMarkup:
+def record_titles_markup(record_dtos: list[GetRecordDTO]) -> types.InlineKeyboardMarkup:
     markup = types.InlineKeyboardMarkup()
 
     for record_dto in record_dtos:
         btn = types.InlineKeyboardButton(
             record_dto.title,
             callback_data=json.dumps(
-                {"operation": "get_record_by_id", "id": record_dto.id}
+                {
+                    "operation": CallbackOperation.GET_RECORD_BY_ID.value,
+                    "id": record_dto.id,
+                }
             ),
         )
         markup.add(btn)
-
-    markup = _add_pagination_btns(markup, pagination)
 
     return markup

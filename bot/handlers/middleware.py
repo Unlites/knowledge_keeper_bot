@@ -1,6 +1,6 @@
 from pydantic import ValidationError
 from telebot import types
-from bot.handlers.utils import message_converting
+from bot.handlers import message_converting
 
 
 def validation(func):

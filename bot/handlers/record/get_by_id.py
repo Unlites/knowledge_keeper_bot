@@ -4,7 +4,7 @@ from telebot.types import CallbackQuery
 from bot.di_container.container import di_container
 from bot.dto.usecase_result import UsecaseStatus
 from bot.handlers.markups import auth_markup
-from bot.handlers.utils.message_converting import displaying_record
+from bot.handlers.message_converting import displaying_record
 from bot.usecases.record.get_by_id import GetRecordByIdUsecase
 
 
