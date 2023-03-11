@@ -5,6 +5,7 @@ from bot.infrastructure.api.knowledge_keeper_api.implementation.record import (
     KnowledgeKeeperAPIRecordImpl,
 )
 from bot.infrastructure.api.knowledge_keeper_api.record import KnowledgeKeeperAPIRecord
+from bot.usecases.managers.token_manager import TokenManager
 from bot.usecases.implementation.record.create import CreateRecordUsecaseImpl
 from bot.usecases.implementation.record.get_by_id import GetRecordByIdUsecaseImpl
 from bot.usecases.record.create import CreateRecordUsecase
@@ -43,6 +44,8 @@ di_container.register(TokenRepository, TokenRepositoryRedis)
 di_container.register(KnowledgeKeeperAPIAuth, KnowledgeKeeperAPIAuthImpl)
 di_container.register(SignInUsecase, SignInUsecaseImpl)
 di_container.register(SignUpUsecase, SignUpUsecaseImpl)
+
+di_container.register(TokenManager)
 
 di_container.register(KnowledgeKeeperAPIRecord, KnowledgeKeeperAPIRecordImpl)
 di_container.register(CreateRecordUsecase, CreateRecordUsecaseImpl)
