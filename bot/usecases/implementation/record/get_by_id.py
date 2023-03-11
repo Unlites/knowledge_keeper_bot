@@ -3,7 +3,7 @@ from bot.dto.record import GetRecordDTO
 from bot.dto.usecase_result import UsecaseResult, UsecaseStatus
 from bot.infrastructure.api.errors import (
     KnowledgeKeeperAPIError,
-    KnowledgeKeeperAPIUnauthorized,
+    KnowledgeKeeperAPIUnauthorizedError,
 )
 from bot.infrastructure.api.knowledge_keeper_api.auth import KnowledgeKeeperAPIAuth
 from bot.infrastructure.api.knowledge_keeper_api.record import KnowledgeKeeperAPIRecord
@@ -53,6 +53,6 @@ class GetRecordByIdUsecaseImpl(GetRecordByIdUsecase):
         except KnowledgeKeeperAPIError as e:
             self._logger.error(f"{telegram_id} - {e.detail}")
             return UsecaseResult(e, status=UsecaseStatus.FAILURE)
-        except KnowledgeKeeperAPIUnauthorized:
+        except KnowledgeKeeperAPIUnauthorizedError:
             self._with_tokens_refresh = True
             return self.__call__(telegram_id, record_id)

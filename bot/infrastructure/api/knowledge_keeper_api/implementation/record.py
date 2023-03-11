@@ -2,7 +2,7 @@ import requests
 from requests.exceptions import ConnectionError
 from bot.infrastructure.api.errors import (
     KnowledgeKeeperAPIError,
-    KnowledgeKeeperAPIUnauthorized,
+    KnowledgeKeeperAPIUnauthorizedError,
 )
 from bot.infrastructure.api.errors import KnowledgeKeeperAPIConnectionError
 from bot.infrastructure.api.knowledge_keeper_api.record import KnowledgeKeeperAPIRecord
@@ -27,7 +27,7 @@ class KnowledgeKeeperAPIRecordImpl(KnowledgeKeeperAPIRecord):
             data = response.json()["data"]
 
             if response.status_code == HTTPStatus.UNAUTHORIZED:
-                raise KnowledgeKeeperAPIUnauthorized
+                raise KnowledgeKeeperAPIUnauthorizedError
             elif response.status_code != HTTPStatus.OK:
                 raise KnowledgeKeeperAPIError(data)
 
@@ -56,7 +56,7 @@ class KnowledgeKeeperAPIRecordImpl(KnowledgeKeeperAPIRecord):
 
             data = response.json()["data"]
             if response.status_code == HTTPStatus.UNAUTHORIZED:
-                raise KnowledgeKeeperAPIUnauthorized
+                raise KnowledgeKeeperAPIUnauthorizedError
             elif response.status_code != HTTPStatus.OK:
                 raise KnowledgeKeeperAPIError(data)
 
@@ -84,7 +84,7 @@ class KnowledgeKeeperAPIRecordImpl(KnowledgeKeeperAPIRecord):
 
             data = response.json()["data"]
             if response.status_code == HTTPStatus.UNAUTHORIZED:
-                raise KnowledgeKeeperAPIUnauthorized
+                raise KnowledgeKeeperAPIUnauthorizedError
             elif response.status_code != HTTPStatus.OK:
                 raise KnowledgeKeeperAPIError(data)
 

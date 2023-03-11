@@ -7,7 +7,7 @@ class KnowledgeKeeperAPIError(Exception):
         return self.default_message or self.detail
 
 
-class KnowledgeKeeperAPIUnauthorized(Exception):
+class KnowledgeKeeperAPIUnauthorizedError(Exception):
     pass
 
 
