@@ -34,11 +34,23 @@ class KnowledgeKeeperAPIRecordImpl(KnowledgeKeeperAPIRecord):
         except ConnectionError as e:
             raise KnowledgeKeeperAPIConnectionError(e)
 
-    def search_by_title(self, access_token, title, limit, offset) -> list[Record]:
+    def get_all_records(
+        self,
+        access_token,
+        limit,
+        offset,
+        topic=None,
+        title=None,
+    ) -> list[Record]:
         try:
             response = requests.get(
-                self._url + "/search",
-                params={"title": title, "limit": limit, "offset": offset},
+                self._url,
+                params={
+                    "topic": topic,
+                    "title": title,
+                    "limit": limit,
+                    "offset": offset,
+                },
                 headers=bearer_authorization(access_token),
             )
 

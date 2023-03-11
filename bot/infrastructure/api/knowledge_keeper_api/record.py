@@ -8,7 +8,14 @@ class KnowledgeKeeperAPIRecord(ABC):
         pass
 
     @abstractmethod
-    def search_by_title(self, access_token, title, limit, offset) -> list[Record]:
+    def get_all_records(
+        self,
+        access_token,
+        limit,
+        offset,
+        topic=None,
+        title=None,
+    ) -> list[Record]:
         pass
 
     @abstractmethod

@@ -28,7 +28,7 @@ class GetRecordByIdHandler:
             self._bot.send_message(
                 callback.message.chat.id,
                 displaying_record(result.data),
-                parse_mode="markdown",
+                parse_mode="html",
             )
         elif result.status == UsecaseStatus.UNAUTHORIZED:
             self._bot.send_message(
