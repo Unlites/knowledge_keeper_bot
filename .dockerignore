@@ -3,4 +3,4 @@ venv/
 .git/
 .gitignore
 .redis_data/
-pyrightconfig.json
+

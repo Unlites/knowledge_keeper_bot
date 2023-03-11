@@ -40,7 +40,10 @@ class SearchRecordsByTitleUsecaseImpl(SearchRecordsByTitleUsecase):
                 self._token_repo.set_tokens(telegram_id, tokens)
 
             records = self._record_api.get_all_records(
-                tokens.access_token, limit, offset, title=title
+                tokens.access_token,
+                limit,
+                offset,
+                title=title,
             )
 
             record_dtos = []
