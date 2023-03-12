@@ -62,7 +62,7 @@ class GetAllRecordsHandler:
             )
         else:
             self._bot.send_message(
-                message.chat.id, f"Failed to search records - {result.data}"
+                message.chat.id, f"Failed to get all records - {result.data}"
             )
 
 
