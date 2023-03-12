@@ -8,41 +8,29 @@ from bot.handlers.pagination import Pagination
 from bot.usecases.record.search_by_title import GetAllRecordsUsecase
 
 
-class SearchRecordsByTitleHandler:
+class GetAllRecordsHandler:
     def __init__(self, message: types.Message, bot: TeleBot):
         self._bot = bot
         self._usecase = di_container.resolve(GetAllRecordsUsecase)
         self._handle(message)
 
-    def _handle(self, message: types.Message):
-        self._ask_title(message)
-
-    def _ask_title(self, message: types.Message):
-        message = self._bot.send_message(message.chat.id, "Enter searching title")
-        self._bot.register_next_step_handler(message, self._search)
-
-    def _search(
+    def _handle(
         self,
         message: types.Message,
-        input_value=None,
         current_page=1,
         is_callback=False,
     ):
-        if not input_value:
-            input_value = message.text
-
         pagination = Pagination(current_page)
         result = self._usecase(
             message.chat.id,
             pagination.limit_for_check_next_page,
             pagination.offset,
-            title=input_value,
         )
 
         if result.status == UsecaseStatus.SUCCESS:
             if not result.data:
                 self._bot.send_message(
-                    message.chat.id, "Not found records contain this title"
+                    message.chat.id, "You haven't created records yet"
                 )
                 return
 
@@ -52,9 +40,9 @@ class SearchRecordsByTitleHandler:
             titles_markup = record_titles_markup(result.data)
             paginated_titles_markup = pagination.paginate(
                 titles_markup,
-                operation=CallbackOperation.SEARCH_RECORDS_BY_TITLE_SWITCH_PAGE,
-                input_value=input_value,
+                operation=CallbackOperation.GET_ALL_RECORDS_SWITCH_PAGE,
             )
+
             if is_callback:
                 self._bot.edit_message_text(
                     "Choose neaded title",
@@ -78,17 +66,12 @@ class SearchRecordsByTitleHandler:
             )
 
 
-class SearchByTitleSwitchPageHandler(SearchRecordsByTitleHandler):
+class GetAllRecordsSwitchPageHandler(GetAllRecordsHandler):
     def __init__(self, callback: types.CallbackQuery, bot: TeleBot):
         self._bot = bot
         self._usecase = di_container.resolve(GetAllRecordsUsecase)
-        self._handle(callback)
-
-    def _handle(self, callback: types.CallbackQuery):
-        data = json.loads(callback.data)
-        self._search(
+        self._handle(
             callback.message,
-            input_value=data["input_value"],
-            current_page=data["page"],
+            current_page=json.loads(callback.data)["page"],
             is_callback=True,
         )

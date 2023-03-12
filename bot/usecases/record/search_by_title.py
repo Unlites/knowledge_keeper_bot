@@ -2,7 +2,14 @@ from abc import ABC, abstractmethod
 from bot.dto.usecase_result import UsecaseResult
 
 
-class SearchRecordsByTitleUsecase(ABC):
+class GetAllRecordsUsecase(ABC):
     @abstractmethod
-    def __call__(self, telegram_id, title, limit, offset) -> UsecaseResult:
+    def __call__(
+        self,
+        telegram_id,
+        limit,
+        offset,
+        topic=None,
+        title=None,
+    ) -> UsecaseResult:
         pass

@@ -9,11 +9,11 @@ from bot.managers.token_manager import TokenManager
 from bot.usecases.implementation.record.create import CreateRecordUsecaseImpl
 from bot.usecases.implementation.record.get_by_id import GetRecordByIdUsecaseImpl
 from bot.usecases.record.create import CreateRecordUsecase
-from bot.usecases.implementation.record.search_by_title import (
-    SearchRecordsByTitleUsecaseImpl,
+from bot.usecases.implementation.record.get_all_records import (
+    GetAllRecordsUsecaseImpl,
 )
 from bot.usecases.record.get_by_id import GetRecordByIdUsecase
-from bot.usecases.record.search_by_title import SearchRecordsByTitleUsecase
+from bot.usecases.record.search_by_title import GetAllRecordsUsecase
 from config.config import Config
 from logger.logger import create_logger
 from bot.infrastructure.repository.token_repo.implementation.token_redis import (
@@ -49,5 +49,5 @@ di_container.register(SignUpUsecase, SignUpUsecaseImpl)
 
 di_container.register(KnowledgeKeeperAPIRecord, KnowledgeKeeperAPIRecordImpl)
 di_container.register(CreateRecordUsecase, CreateRecordUsecaseImpl)
-di_container.register(SearchRecordsByTitleUsecase, SearchRecordsByTitleUsecaseImpl)
+di_container.register(GetAllRecordsUsecase, GetAllRecordsUsecaseImpl)
 di_container.register(GetRecordByIdUsecase, GetRecordByIdUsecaseImpl)

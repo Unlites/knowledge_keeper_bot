@@ -19,29 +19,24 @@ class Pagination:
         operation: CallbackOperation,
         input_value=None,
     ) -> types.InlineKeyboardMarkup:
+        callback_data = {
+            "operation": operation.value,
+            "input_value": input_value,
+        }
+
         if self.next_page:
+            callback_data["page"] = self.next_page
             next_btn = types.InlineKeyboardButton(
                 "Next page",
-                callback_data=json.dumps(
-                    {
-                        "operation": operation.value,
-                        "input_value": input_value,
-                        "page": self.next_page,
-                    }
-                ),
+                callback_data=json.dumps(callback_data),
             )
             markup.add(next_btn)
 
         if self.prev_page:
+            callback_data["page"] = self.prev_page
             prev_btn = types.InlineKeyboardButton(
                 "Previous page",
-                callback_data=json.dumps(
-                    {
-                        "operation": operation.value,
-                        "input_value": input_value,
-                        "page": self.prev_page,
-                    }
-                ),
+                callback_data=json.dumps(callback_data),
             )
             markup.add(prev_btn)
 

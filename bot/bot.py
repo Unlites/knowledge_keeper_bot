@@ -2,12 +2,16 @@ import json
 from telebot import types, TeleBot
 from bot.handlers.callback_data import CallbackOperation
 from bot.handlers.record.create import CreateRecordHandler
+from bot.handlers.record.get_all import (
+    GetAllRecordsHandler,
+    GetAllRecordsSwitchPageHandler,
+)
 from bot.handlers.record.get_by_id import GetRecordByIdHandler
 from bot.handlers.start.start import StartHandler
 from bot.handlers.auth.sign_in import SignInHandler
 from bot.handlers.auth.sign_up import SignUpHandler
 from bot.handlers.record.search_by_title import SearchRecordsByTitleHandler
-from bot.handlers.record.search_by_title import TitlesSwitchPageHandler
+from bot.handlers.record.search_by_title import SearchByTitleSwitchPageHandler
 from config.config import Config
 
 
@@ -30,11 +34,13 @@ def register_handlers(bot: TeleBot) -> None:
         "start": StartHandler,
         "create": CreateRecordHandler,
         "search": SearchRecordsByTitleHandler,
+        "get_all": GetAllRecordsHandler,
     }
 
     callback_handlers = {
         CallbackOperation.GET_RECORD_BY_ID.value: GetRecordByIdHandler,
-        CallbackOperation.SWITCH_PAGE_TITLE.value: TitlesSwitchPageHandler,
+        CallbackOperation.GET_ALL_RECORDS_SWITCH_PAGE.value: GetAllRecordsSwitchPageHandler,
+        CallbackOperation.SEARCH_RECORDS_BY_TITLE_SWITCH_PAGE.value: SearchByTitleSwitchPageHandler,
     }
 
     web_app_handlers = {

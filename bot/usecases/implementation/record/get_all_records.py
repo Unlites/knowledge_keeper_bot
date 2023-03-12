@@ -5,10 +5,10 @@ from bot.infrastructure.api.errors import KnowledgeKeeperAPIError
 from bot.infrastructure.api.errors import UnauthorizedError
 from bot.infrastructure.api.knowledge_keeper_api.record import KnowledgeKeeperAPIRecord
 from bot.managers.token_manager import TokenManager
-from bot.usecases.record.search_by_title import SearchRecordsByTitleUsecase
+from bot.usecases.record.search_by_title import GetAllRecordsUsecase
 
 
-class SearchRecordsByTitleUsecaseImpl(SearchRecordsByTitleUsecase):
+class GetAllRecordsUsecaseImpl(GetAllRecordsUsecase):
     def __init__(
         self,
         logger: Logger,
@@ -19,7 +19,14 @@ class SearchRecordsByTitleUsecaseImpl(SearchRecordsByTitleUsecase):
         self._record_api = record_api
         self._token_manager = token_manager
 
-    def __call__(self, telegram_id, title, limit, offset) -> UsecaseResult:
+    def __call__(
+        self,
+        telegram_id,
+        limit,
+        offset,
+        topic=None,
+        title=None,
+    ) -> UsecaseResult:
         try:
             access_token = self._token_manager.manage_tokens(telegram_id)
 
@@ -27,6 +34,7 @@ class SearchRecordsByTitleUsecaseImpl(SearchRecordsByTitleUsecase):
                 access_token,
                 limit,
                 offset,
+                topic=topic,
                 title=title,
             )
 
