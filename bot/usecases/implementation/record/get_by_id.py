@@ -1,14 +1,10 @@
 from logging import Logger
 from bot.dto.record import GetRecordDTO
 from bot.dto.usecase_result import UsecaseResult, UsecaseStatus
-from bot.infrastructure.api.errors import (
-    KnowledgeKeeperAPIError,
-    UnauthorizedError,
-)
-from bot.infrastructure.api.knowledge_keeper_api.auth import KnowledgeKeeperAPIAuth
+from bot.infrastructure.api.errors import KnowledgeKeeperAPIError
+from bot.infrastructure.api.errors import UnauthorizedError
 from bot.infrastructure.api.knowledge_keeper_api.record import KnowledgeKeeperAPIRecord
-from bot.infrastructure.repository.token_repo.token_repo import TokenRepository
-from bot.usecases.managers.token_manager import TokenManager
+from bot.managers.token_manager import TokenManager
 from bot.usecases.record.get_by_id import GetRecordByIdUsecase
 
 

@@ -7,7 +7,7 @@ from bot.infrastructure.api.knowledge_keeper_api.auth import KnowledgeKeeperAPIA
 from bot.infrastructure.api.knowledge_keeper_api.record import KnowledgeKeeperAPIRecord
 from bot.infrastructure.repository.token_repo.token_repo import TokenRepository
 from bot.models.record import Record
-from bot.usecases.managers.token_manager import TokenManager
+from bot.managers.token_manager import TokenManager
 from bot.usecases.record.create import CreateRecordUsecase
 
 
