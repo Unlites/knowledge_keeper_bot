@@ -7,6 +7,7 @@ from bot.handlers.record.get_all import (
     GetAllRecordsSwitchPageHandler,
 )
 from bot.handlers.record.get_by_id import GetRecordByIdHandler
+from bot.handlers.record.get_topics import GetTopicsHandler
 from bot.handlers.start.start import StartHandler
 from bot.handlers.auth.sign_in import SignInHandler
 from bot.handlers.auth.sign_up import SignUpHandler
@@ -35,6 +36,7 @@ def register_handlers(bot: TeleBot) -> None:
         "create": CreateRecordHandler,
         "search": SearchRecordsByTitleHandler,
         "get_all": GetAllRecordsHandler,
+        "get_topics": GetTopicsHandler,
     }
 
     callback_handlers = {

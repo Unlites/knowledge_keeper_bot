@@ -22,7 +22,10 @@ class GetRecordByIdHandler:
 
         if result.status == UsecaseStatus.SUCCESS:
             if not result.data:
-                self._bot.send_message(callback.message.chat.id, "Record not found")
+                self._bot.send_message(
+                    callback.message.chat.id,
+                    "Record not found",
+                )
                 return
 
             self._bot.send_message(
@@ -38,5 +41,6 @@ class GetRecordByIdHandler:
             )
         else:
             self._bot.send_message(
-                callback.message.chat.id, f"Failed to get record - {result.data}"
+                callback.message.chat.id,
+                f"Failed to get record - {result.data}",
             )

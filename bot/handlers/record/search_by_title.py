@@ -42,7 +42,8 @@ class SearchRecordsByTitleHandler:
         if result.status == UsecaseStatus.SUCCESS:
             if not result.data:
                 self._bot.send_message(
-                    message.chat.id, "Not found records contain this title"
+                    message.chat.id,
+                    "Not found records contain this title",
                 )
                 return
 
@@ -70,11 +71,14 @@ class SearchRecordsByTitleHandler:
                 )
         elif result.status == UsecaseStatus.UNAUTHORIZED:
             self._bot.send_message(
-                message.chat.id, "You have to sign in!", reply_markup=auth_markup()
+                message.chat.id,
+                "You have to sign in!",
+                reply_markup=auth_markup(),
             )
         else:
             self._bot.send_message(
-                message.chat.id, f"Failed to search records - {result.data}"
+                message.chat.id,
+                f"Failed to search records - {result.data}",
             )
 
 

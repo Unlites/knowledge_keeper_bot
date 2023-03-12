@@ -30,7 +30,8 @@ class GetAllRecordsHandler:
         if result.status == UsecaseStatus.SUCCESS:
             if not result.data:
                 self._bot.send_message(
-                    message.chat.id, "You haven't created records yet"
+                    message.chat.id,
+                    "You haven't created records yet",
                 )
                 return
 
@@ -58,11 +59,14 @@ class GetAllRecordsHandler:
                 )
         elif result.status == UsecaseStatus.UNAUTHORIZED:
             self._bot.send_message(
-                message.chat.id, "You have to sign in!", reply_markup=auth_markup()
+                message.chat.id,
+                "You have to sign in!",
+                reply_markup=auth_markup(),
             )
         else:
             self._bot.send_message(
-                message.chat.id, f"Failed to get all records - {result.data}"
+                message.chat.id,
+                f"Failed to get all records - {result.data}",
             )
 
 

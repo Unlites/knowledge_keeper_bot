@@ -97,3 +97,20 @@ class KnowledgeKeeperAPIRecordImpl(KnowledgeKeeperAPIRecord):
 
         except ConnectionError as e:
             raise KnowledgeKeeperAPIConnectionError(e)
+
+    def get_topics(self, access_token) -> list[str]:
+        try:
+            response = requests.get(
+                f"{self._url}/topics",
+                headers=bearer_authorization(access_token),
+            )
+
+            data = response.json()["data"]
+            if response.status_code == HTTPStatus.UNAUTHORIZED:
+                raise UnauthorizedError
+            elif response.status_code != HTTPStatus.OK:
+                raise KnowledgeKeeperAPIError(data)
+
+            return data
+        except ConnectionError as e:
+            raise KnowledgeKeeperAPIConnectionError(e)
