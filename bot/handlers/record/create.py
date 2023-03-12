@@ -1,5 +1,5 @@
 from telebot import types, TeleBot
-from bot.di_container.container import di_container
+from bot.di_container import di_container
 from bot.dto.record import CreateRecordDTO
 from bot.dto.usecase_result import UsecaseStatus
 from bot.handlers.markups import auth_markup

@@ -5,7 +5,8 @@ from bot.infrastructure.api.knowledge_keeper_api.implementation.record import (
     KnowledgeKeeperAPIRecordImpl,
 )
 from bot.infrastructure.api.knowledge_keeper_api.record import KnowledgeKeeperAPIRecord
-from bot.managers.token_manager import TokenManager
+from bot.managers.token import TokenManager
+from bot.managers.implementation.token import TokenManagerImpl
 from bot.usecases.implementation.record.create import CreateRecordUsecaseImpl
 from bot.usecases.implementation.record.get_by_id import GetRecordByIdUsecaseImpl
 from bot.usecases.implementation.record.get_topics import GetTopicsUsecaseImpl
@@ -43,7 +44,7 @@ r_client = Redis(
 di_container.register(Redis, instance=r_client)
 di_container.register(TokenRepository, TokenRepositoryRedis)
 
-di_container.register(TokenManager)
+di_container.register(TokenManager, TokenManagerImpl)
 
 di_container.register(KnowledgeKeeperAPIAuth, KnowledgeKeeperAPIAuthImpl)
 di_container.register(SignInUsecase, SignInUsecaseImpl)

@@ -1,6 +1,6 @@
 import json
 from telebot import types, TeleBot
-from bot.di_container.container import di_container
+from bot.di_container import di_container
 from bot.dto.usecase_result import UsecaseStatus
 from bot.handlers.callback_data import CallbackOperation
 from bot.handlers.markups import auth_markup, record_titles_markup

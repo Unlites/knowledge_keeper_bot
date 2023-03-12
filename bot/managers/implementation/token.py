@@ -3,7 +3,7 @@ from bot.infrastructure.api.knowledge_keeper_api.auth import KnowledgeKeeperAPIA
 from bot.infrastructure.repository.token_repo.token_repo import TokenRepository
 
 
-class TokenManager:
+class TokenManagerImpl:
     def __init__(
         self,
         auth_api: KnowledgeKeeperAPIAuth,

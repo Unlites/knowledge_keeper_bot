@@ -1,7 +1,7 @@
 import json
 from telebot import TeleBot
 from telebot.types import CallbackQuery
-from bot.di_container.container import di_container
+from bot.di_container import di_container
 from bot.dto.usecase_result import UsecaseStatus
 from bot.handlers.markups import auth_markup
 from bot.handlers.message_converting import displaying_record
