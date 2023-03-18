@@ -29,8 +29,10 @@ class SignUpHandler:
         if result.status == UsecaseStatus.SUCCESS:
             self._bot.send_message(
                 message.chat.id,
-                "Sign up is successful! You can use this bot.",
+                "Sign up is successful! You can use this bot. \u2705",
                 reply_markup=markup,
             )
         else:
-            self._bot.send_message(message.chat.id, f"Sign up is failed: {result.data}")
+            self._bot.send_message(
+                message.chat.id, f"Sign up is failed: {result.data} \U0001F6AB"
+            )

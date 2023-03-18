@@ -24,7 +24,7 @@ class GetRecordByIdHandler:
             if not result.data:
                 self._bot.send_message(
                     callback.message.chat.id,
-                    "Record not found",
+                    "Record not found \U0001F937\u200D\u2642\uFE0F",
                 )
                 return
 
@@ -36,11 +36,11 @@ class GetRecordByIdHandler:
         elif result.status == UsecaseStatus.UNAUTHORIZED:
             self._bot.send_message(
                 callback.message.chat.id,
-                "You have to sign in!",
+                "You have to sign in! \u26D4\uFE0F",
                 reply_markup=auth_markup(),
             )
         else:
             self._bot.send_message(
                 callback.message.chat.id,
-                f"Failed to get record - {result.data}",
+                f"Failed to get record - {result.data} \U0001F6AB",
             )

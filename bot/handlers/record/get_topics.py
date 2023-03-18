@@ -5,13 +5,16 @@ from bot.handlers.markups import auth_markup, record_topics_markup
 from bot.usecases.record.get_topics import GetTopicsUsecase
 
 
+topics_cache = {}
+
+
 class GetTopicsHandler:
-    def __init__(self, message: types.Message, bot: TeleBot):
+    def __init__(self, message: types.Message, bot: TeleBot) -> None:
         self._bot = bot
         self._usecase = di_container.resolve(GetTopicsUsecase)
         self._handle(message)
 
-    def _handle(self, message: types.Message):
+    def _handle(self, message: types.Message) -> None:
         result = self._usecase(message.chat.id)
 
         if result.status == UsecaseStatus.SUCCESS:

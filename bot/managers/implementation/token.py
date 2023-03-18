@@ -1,6 +1,6 @@
 from bot.infrastructure.api.errors import UnauthorizedError
 from bot.infrastructure.api.knowledge_keeper_api.auth import KnowledgeKeeperAPIAuth
-from bot.infrastructure.repository.token_repo.token_repo import TokenRepository
+from bot.infrastructure.repository.token_repo import TokenRepository
 
 
 class TokenManagerImpl:

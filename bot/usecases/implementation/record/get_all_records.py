@@ -5,7 +5,7 @@ from bot.infrastructure.api.errors import KnowledgeKeeperAPIError
 from bot.infrastructure.api.errors import UnauthorizedError
 from bot.infrastructure.api.knowledge_keeper_api.record import KnowledgeKeeperAPIRecord
 from bot.managers.token import TokenManager
-from bot.usecases.record.search_by_title import GetAllRecordsUsecase
+from bot.usecases.record.get_all import GetAllRecordsUsecase
 
 
 class GetAllRecordsUsecaseImpl(GetAllRecordsUsecase):
@@ -57,4 +57,10 @@ class GetAllRecordsUsecaseImpl(GetAllRecordsUsecase):
                 return UsecaseResult(status=UsecaseStatus.UNAUTHORIZED)
 
             self._token_manager.with_tokens_refresh = True
-            return self.__call__(telegram_id, title, limit, offset)
+            return self.__call__(
+                telegram_id,
+                limit,
+                offset,
+                title=title,
+                topic=topic,
+            )

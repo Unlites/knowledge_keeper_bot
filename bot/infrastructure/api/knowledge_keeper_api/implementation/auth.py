@@ -1,10 +1,7 @@
 import json
 import requests
 from requests.exceptions import ConnectionError
-from bot.infrastructure.api.errors import (
-    KnowledgeKeeperAPIError,
-    UnauthorizedError,
-)
+from bot.infrastructure.api.errors import KnowledgeKeeperAPIError, UnauthorizedError
 from bot.infrastructure.api.errors import KnowledgeKeeperAPIConnectionError
 from bot.infrastructure.api.knowledge_keeper_api.auth import KnowledgeKeeperAPIAuth
 from http import HTTPStatus
@@ -26,7 +23,8 @@ class KnowledgeKeeperAPIAuthImpl(KnowledgeKeeperAPIAuth):
                 raise KnowledgeKeeperAPIError(data)
 
             return Tokens(
-                access_token=data["access_token"], refresh_token=data["refresh_token"]
+                access_token=data["access_token"],
+                refresh_token=data["refresh_token"],
             )
         except ConnectionError as e:
             raise KnowledgeKeeperAPIConnectionError(e)
@@ -55,7 +53,8 @@ class KnowledgeKeeperAPIAuthImpl(KnowledgeKeeperAPIAuth):
                 raise KnowledgeKeeperAPIError(data)
 
             return Tokens(
-                access_token=data["access_token"], refresh_token=data["refresh_token"]
+                access_token=data["access_token"],
+                refresh_token=data["refresh_token"],
             )
         except ConnectionError as e:
             raise KnowledgeKeeperAPIConnectionError(e)

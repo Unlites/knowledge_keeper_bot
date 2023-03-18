@@ -11,18 +11,16 @@ from bot.usecases.implementation.record.create import CreateRecordUsecaseImpl
 from bot.usecases.implementation.record.get_by_id import GetRecordByIdUsecaseImpl
 from bot.usecases.implementation.record.get_topics import GetTopicsUsecaseImpl
 from bot.usecases.record.create import CreateRecordUsecase
-from bot.usecases.implementation.record.get_all_records import (
-    GetAllRecordsUsecaseImpl,
-)
+from bot.usecases.implementation.record.get_all_records import GetAllRecordsUsecaseImpl
 from bot.usecases.record.get_by_id import GetRecordByIdUsecase
 from bot.usecases.record.get_topics import GetTopicsUsecase
-from bot.usecases.record.search_by_title import GetAllRecordsUsecase
+from bot.usecases.record.get_all import GetAllRecordsUsecase
 from config.config import Config
 from logger.logger import create_logger
-from bot.infrastructure.repository.token_repo.implementation.token_redis import (
+from bot.infrastructure.repository.implementation.token_redis import (
     TokenRepositoryRedis,
 )
-from bot.infrastructure.repository.token_repo.token_repo import TokenRepository
+from bot.infrastructure.repository.token_repo import TokenRepository
 from bot.infrastructure.api.knowledge_keeper_api.implementation.auth import (
     KnowledgeKeeperAPIAuthImpl,
 )
@@ -38,7 +36,9 @@ di_container = punq.Container()
 di_container.register(Logger, instance=create_logger(Config.LOG_LEVEL))
 
 r_client = Redis(
-    host=Config.REDIS_HOST, password=Config.REDIS_PASSWORD, decode_responses=True
+    host=Config.REDIS_HOST,
+    password=Config.REDIS_PASSWORD,
+    decode_responses=True,
 )
 
 di_container.register(Redis, instance=r_client)

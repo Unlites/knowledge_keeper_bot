@@ -52,3 +52,18 @@ def record_topics_markup(topics: list[str]) -> types.InlineKeyboardMarkup:
         markup.add(btn)
 
     return markup
+
+
+def cancelation_markup() -> types.InlineKeyboardMarkup:
+    markup = types.InlineKeyboardMarkup()
+    btn = types.InlineKeyboardButton(
+        "Cancel \u2716",
+        callback_data=json.dumps(
+            {
+                "operation": CallbackOperation.CANCEL.value,
+            }
+        ),
+    )
+    markup.add(btn)
+
+    return markup

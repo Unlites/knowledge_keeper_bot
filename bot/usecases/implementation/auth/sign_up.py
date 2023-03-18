@@ -2,7 +2,7 @@ from logging import Logger
 from bot.dto.user import UserSignUpDTO
 from bot.infrastructure.api.errors import KnowledgeKeeperAPIError
 from bot.infrastructure.api.knowledge_keeper_api.auth import KnowledgeKeeperAPIAuth
-from bot.infrastructure.repository.token_repo.token_repo import TokenRepository
+from bot.infrastructure.repository.token_repo import TokenRepository
 from bot.models.user import User
 from bot.usecases.auth.sign_up import SignUpUsecase
 from bot.dto.usecase_result import UsecaseResult, UsecaseStatus

@@ -27,7 +27,7 @@ class Pagination:
         if self.next_page:
             callback_data["page"] = self.next_page
             next_btn = types.InlineKeyboardButton(
-                "Next page",
+                "Next page \u27A1",
                 callback_data=json.dumps(callback_data),
             )
             markup.add(next_btn)
@@ -35,7 +35,7 @@ class Pagination:
         if self.prev_page:
             callback_data["page"] = self.prev_page
             prev_btn = types.InlineKeyboardButton(
-                "Previous page",
+                "\u2B05 Previous page",
                 callback_data=json.dumps(callback_data),
             )
             markup.add(prev_btn)

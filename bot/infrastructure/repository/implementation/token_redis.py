@@ -21,7 +21,10 @@ class TokenRepositoryRedis:
 
     def set_tokens(self, telegram_id, tokens: Tokens) -> None:
         tokens_json = json.dumps(
-            {"access_token": tokens.access_token, "refresh_token": tokens.refresh_token}
+            {
+                "access_token": tokens.access_token,
+                "refresh_token": tokens.refresh_token,
+            }
         )
 
         self._r_client.set(telegram_id, tokens_json)
