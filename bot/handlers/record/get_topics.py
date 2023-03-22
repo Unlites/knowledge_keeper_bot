@@ -34,7 +34,7 @@ class GetTopicsHandler:
             self._bot.send_message(
                 message.chat.id,
                 "You have to sign in!",
-                reply_markup=auth_markup(),
+                reply_markup=auth_markup(message.chat.id),
             )
         else:
             self._bot.send_message(

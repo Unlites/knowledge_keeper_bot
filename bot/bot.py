@@ -9,8 +9,6 @@ from bot.handlers.record.get_by_topic import GetRecordsByTopicSwitchPageHandler
 from bot.handlers.record.get_by_topic import GetRecordsByTopic
 from bot.handlers.record.get_topics import GetTopicsHandler
 from bot.handlers.start.start import StartHandler
-from bot.handlers.auth.sign_in import SignInHandler
-from bot.handlers.auth.sign_up import SignUpHandler
 from bot.handlers.record.search_by_title import SearchRecordsByTitleHandler
 from bot.handlers.record.search_by_title import SearchRecordsByTitleSwitchPageHandler
 from config.config import Config
@@ -49,11 +47,6 @@ def register_handlers(bot: TeleBot) -> None:
         CallbackOperation.CANCEL.value: _remove_step_handler,
     }
 
-    web_app_handlers = {
-        "sign_in": SignInHandler,
-        "sign_up": SignUpHandler,
-    }
-
     for command, handler in command_handlers.items():
         bot.register_message_handler(
             handler,
@@ -68,27 +61,12 @@ def register_handlers(bot: TeleBot) -> None:
             pass_bot=True,
         )
 
-    for operation, handler in web_app_handlers.items():
-        bot.register_message_handler(
-            handler,
-            content_types=["web_app_data"],
-            func=_web_app_operation_filter(operation),
-            pass_bot=True,
-        )
-
-
 def run(bot: TeleBot) -> None:
     bot.infinity_polling()
 
 
 def _callback_operation_filter(operation):
     return lambda callback: json.loads(callback.data)["operation"] == operation
-
-
-def _web_app_operation_filter(operation):
-    return (
-        lambda message: json.loads(message.web_app_data.data)["operation"] == operation
-    )
 
 
 def _remove_step_handler(callback: types.CallbackQuery, bot: TeleBot):

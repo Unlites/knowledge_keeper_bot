@@ -12,5 +12,5 @@ class StartHandler:
             message.chat.id,
             "Welcome! You have to sign in. Press button 'Sign In' for this or 'Sign Up'"
             + " if you need to create a new account",
-            reply_markup=auth_markup(),
+            reply_markup=auth_markup(message.chat.id),
         )

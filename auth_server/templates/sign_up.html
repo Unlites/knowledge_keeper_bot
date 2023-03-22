@@ -1,54 +1,123 @@
 <!DOCTYPE html>
 <html>
+
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Login</title>
-   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+   <title>Sign in</title>
 
    <style>
       body {
-         color: var(--tg-theme-text-color);
-         background: var(--tg-theme-bg-color);
          display: flex;
          flex-direction: column;
          align-items: center;
          font-size: 18px;
       }
+
       .input {
-        margin-bottom: 15px;
+         margin: 15px;
+      }
+
+      .button {
+         width: 100%;
+         padding: 15px 30px;
+      }
+
+      .message {
+         display: none;
+         margin: 15px;
       }
    </style>
 </head>
 
 <body>
    <h1>Sign up</h1>
-   <div class="input">Username <input id="username" type="text"/></div>
-   <div class="input">Password <input id="password" type="password"/></div>
-   <div class="input">Confirm password <input id="confirm_password" type="password"/></div>
+   <form id="sign_up_form">
+      <div class="input">Username <input required id="username" type="text" /></div>
+      <div class="input">Password <input required id="password" type="password" /></div>
+      <div class="input">Confirm password <input required id="confirm_password" type="password" /></div>
+      <button class="button" type="submit">Sign up</button>
+   </form>
+   <div id="message" class="message"></div>
 </body>
 
 <script>
-   let tg = window.Telegram.WebApp; 
+   let tg_id = "{{ tg_id }}";
+   let api_url = "{{ api_url }}";
+   let form = document.getElementById("sign_up_form");
+   form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      let username = document.getElementById("username").value;
+      let password = document.getElementById("password").value;
+      let confirm_password = document.getElementById("password").value;
 
-   tg.expand();
+      if (password !== confirm_password) {
+         errorMessage("Passwords don't match!");
+      } else {
+         fetch(`${api_url}/auth/sign_up`, {
+            method: "POST",
+            body: JSON.stringify({
+               username: username,
+               password: password,
+            })
+         })
+            .then((response) => response.json())
+            .then((result) => {
+               if (result.status === "success") {
+                  fetch(`${api_url}/auth/sign_in`, {
+                     method: "POST",
+                     body: JSON.stringify({
+                        username: username,
+                        password: password,
+                     })
+                  })
+                     .then((response) => response.json())
+                     .then((result) => {
+                        if (result.status === "success") {
+                           fetch(`http://${window.location.host}/sign_in`, {
+                              method: "POST",
+                              body: JSON.stringify({
+                                 tg_id: tg_id,
+                                 access_token: result.data.access_token,
+                                 refresh_token: result.data.refresh_token,
+                              })
+                           })
+                           form.style.display = "none";
+                           successMessage();
+                        }
+                        else {
+                           errorMessage(result.data);
+                        }
+                     })
+                     .catch((error) => {
+                        errorMessage(error);
+                     });
+               } else {
+                  errorMessage(result.data);
+               }
+            })
+            .catch((error) => {
+               errorMessage(error);
+            });
+      }
+   })
 
-   tg.MainButton.text = "Sign up";
-   tg.MainButton.isVisible = true;
+   function errorMessage(message_text) {
+      let message = document.getElementById("message");
 
-   Telegram.WebApp.onEvent('mainButtonClicked', function() {
-    username = document.getElementById("username").value;
-    password = document.getElementById("password").value;
-    confirmPassword = document.getElementById("confirm_password").value;
+      document.getElementById("message").style.display = "block";
+      document.getElementById("message").style.color = "red";
+      message.innerText = message_text;
+   }
 
-      tg.sendData(JSON.stringify({
-         username: username,
-         password: password,
-         confirm_password: confirmPassword,
-         operation: "sign_up"
-      }));
-   });
+   function successMessage() {
+      let message = document.getElementById("message");
+      document.getElementById("message").style.display = "block";
+      document.getElementById("message").style.color = "green";
+      message.innerText = "Successful! You can close this page and use the bot.";
+   }
 
 </script>
+
 </html>

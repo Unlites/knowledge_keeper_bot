@@ -25,10 +25,6 @@ from bot.infrastructure.api.knowledge_keeper_api.implementation.auth import (
     KnowledgeKeeperAPIAuthImpl,
 )
 from bot.infrastructure.api.knowledge_keeper_api.auth import KnowledgeKeeperAPIAuth
-from bot.usecases.auth.sign_in import SignInUsecase
-from bot.usecases.auth.sign_up import SignUpUsecase
-from bot.usecases.implementation.auth.sign_in import SignInUsecaseImpl
-from bot.usecases.implementation.auth.sign_up import SignUpUsecaseImpl
 
 
 di_container = punq.Container()
@@ -45,10 +41,7 @@ di_container.register(Redis, instance=r_client)
 di_container.register(TokenRepository, TokenRepositoryRedis)
 
 di_container.register(TokenManager, TokenManagerImpl)
-
 di_container.register(KnowledgeKeeperAPIAuth, KnowledgeKeeperAPIAuthImpl)
-di_container.register(SignInUsecase, SignInUsecaseImpl)
-di_container.register(SignUpUsecase, SignUpUsecaseImpl)
 
 di_container.register(KnowledgeKeeperAPIRecord, KnowledgeKeeperAPIRecordImpl)
 di_container.register(CreateRecordUsecase, CreateRecordUsecaseImpl)

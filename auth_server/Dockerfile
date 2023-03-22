@@ -5,4 +5,4 @@ WORKDIR /auth
 COPY . .
 RUN pip install -r requirements.txt
 
-CMD ["python", "auth_server.py"]
+CMD ["python", "-u", "auth_server.py"]
