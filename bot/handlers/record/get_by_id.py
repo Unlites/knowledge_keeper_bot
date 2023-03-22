@@ -37,7 +37,7 @@ class GetRecordByIdHandler:
             self._bot.send_message(
                 callback.message.chat.id,
                 "You have to sign in! \u26D4\uFE0F",
-                reply_markup=auth_markup(),
+                reply_markup=auth_markup(callback.message.chat.id),
             )
         else:
             self._bot.send_message(

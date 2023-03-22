@@ -5,14 +5,18 @@ from bot.handlers.callback_data import CallbackOperation
 from config.config import Config
 
 
-def auth_markup() -> types.ReplyKeyboardMarkup:
-    markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+def auth_markup(telegram_id) -> types.ReplyKeyboardMarkup:
+    markup = types.InlineKeyboardMarkup()
 
-    sign_in_page = types.WebAppInfo(Config.SIGN_IN_URL)
-    sign_up_page = types.WebAppInfo(Config.SIGN_UP_URL)
+    sign_in_button = types.InlineKeyboardButton(
+        text="Sign In", 
+        url=f"{Config.SIGN_IN_URL}?tg_id={telegram_id}",
+    )
 
-    sign_in_button = types.KeyboardButton(text="Sign In", web_app=sign_in_page)
-    sign_up_button = types.KeyboardButton(text="Sign Up", web_app=sign_up_page)
+    sign_up_button = types.InlineKeyboardButton(
+        text="Sign Up", 
+        url=f"{Config.SIGN_UP_URL}?tg_id={telegram_id}",
+    )
 
     markup.add(sign_in_button, sign_up_button)
 

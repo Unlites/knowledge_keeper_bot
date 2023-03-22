@@ -14,16 +14,20 @@ services:
     restart: always
     networks:
       - knowledge_keeper_network
+
   auth:
     container_name: auth
     build: ./auth_server
     volumes:
       - ./auth_server:/auth
+    env_file:
+      - .env
     ports:
       - 5000:5000
     restart: always
     networks:
       - knowledge_keeper_network
+
   redis:
     container_name: redis
     image: redis:7.0.8-alpine
@@ -35,7 +39,7 @@ services:
       - .redis_data:/data
     networks:
       - knowledge_keeper_network
-      
+
 networks:
-  knowledge_keeper_network: 
+  knowledge_keeper_network:
     name: knowledge_keeper_network
