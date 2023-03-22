@@ -17,11 +17,9 @@ class Pagination:
         self,
         markup: types.InlineKeyboardMarkup,
         operation: CallbackOperation,
-        input_value=None,
     ) -> types.InlineKeyboardMarkup:
         callback_data = {
             "operation": operation.value,
-            "input_value": input_value,
         }
 
         if self.next_page:

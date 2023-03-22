@@ -5,16 +5,16 @@ from bot.handlers.callback_data import CallbackOperation
 from config.config import Config
 
 
-def auth_markup(telegram_id) -> types.ReplyKeyboardMarkup:
+def auth_markup(telegram_id) -> types.InlineKeyboardMarkup:
     markup = types.InlineKeyboardMarkup()
 
     sign_in_button = types.InlineKeyboardButton(
-        text="Sign In", 
+        text="Sign In",
         url=f"{Config.SIGN_IN_URL}?tg_id={telegram_id}",
     )
 
     sign_up_button = types.InlineKeyboardButton(
-        text="Sign Up", 
+        text="Sign Up",
         url=f"{Config.SIGN_UP_URL}?tg_id={telegram_id}",
     )
 
