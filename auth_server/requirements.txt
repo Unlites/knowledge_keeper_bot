@@ -2,3 +2,4 @@ flask
 pyopenssl
 redis
 python-dotenv
+requests
