@@ -11,7 +11,7 @@ from bot.usecases.implementation.record.create import CreateRecordUsecaseImpl
 from bot.usecases.implementation.record.get_by_id import GetRecordByIdUsecaseImpl
 from bot.usecases.implementation.record.get_topics import GetTopicsUsecaseImpl
 from bot.usecases.record.create import CreateRecordUsecase
-from bot.usecases.implementation.record.get_all_records import GetAllRecordsUsecaseImpl
+from bot.usecases.implementation.record.get_all import GetAllRecordsUsecaseImpl
 from bot.usecases.record.get_by_id import GetRecordByIdUsecase
 from bot.usecases.record.get_topics import GetTopicsUsecase
 from bot.usecases.record.get_all import GetAllRecordsUsecase

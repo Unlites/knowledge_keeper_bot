@@ -61,6 +61,7 @@ def register_handlers(bot: TeleBot) -> None:
             pass_bot=True,
         )
 
+
 def run(bot: TeleBot) -> None:
     bot.infinity_polling()
 

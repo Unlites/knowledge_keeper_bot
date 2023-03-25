@@ -1,5 +1,4 @@
 import json
-from logging import Logger
 from telebot import types, TeleBot
 from bot.di_container import di_container
 from bot.handlers.callback_data import CallbackOperation
