@@ -32,7 +32,7 @@ services:
     container_name: redis
     image: redis:7.0.8-alpine
     restart: always
-    ports:
+    expose:
       - 6380:6379
     command: redis-server --save 20 1 --requirepass knowledge_bot_redis_password
     volumes:
