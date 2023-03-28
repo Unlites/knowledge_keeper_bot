@@ -47,7 +47,7 @@ class BaseGetRecordsHandler:
             if len(result.data) < pagination.limit_for_check_next_page:
                 pagination.next_page = 0
 
-            titles_markup = record_titles_markup(result.data)
+            titles_markup = record_titles_markup(result.data[: pagination.limit])
             paginated_titles_markup = pagination.paginate(
                 titles_markup,
                 operation=pagination_operation,
