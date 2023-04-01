@@ -23,7 +23,7 @@ def sign_in():
         data = json.loads(request.data)
 
         r_client.set(
-            data["tg_id"],
+            f'{data["tg_id"]}_tokens',
             json.dumps(
                 {
                     "access_token": data["access_token"],
@@ -40,7 +40,6 @@ def sign_in():
         }
 
         res = requests.post(url, data=params)
-        print(res.content)
 
         return "ok"
     return render_template(

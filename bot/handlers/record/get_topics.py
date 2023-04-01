@@ -1,17 +1,16 @@
 from telebot import types, TeleBot
+from bot.cache.cache import Cache
 from bot.di_container import di_container
 from bot.dto.usecase_result import UsecaseStatus
 from bot.handlers.markups import auth_markup, record_topics_markup
 from bot.usecases.record.get_topics import GetTopicsUsecase
 
 
-topics_cache = {}
-
-
 class GetTopicsHandler:
     def __init__(self, message: types.Message, bot: TeleBot) -> None:
         self._bot = bot
         self._usecase = di_container.resolve(GetTopicsUsecase)
+        self._cache = di_container.resolve(Cache)
         self._handle(message)
 
     def _handle(self, message: types.Message) -> None:
@@ -25,10 +24,18 @@ class GetTopicsHandler:
                 )
                 return
 
+            topics = []
+            for i in range(len(result.data)):
+                topics.append({"id": i, "value": result.data[i]})
+
+            user_cache = self._cache.get_user_cache(message.chat.id)
+            user_cache.found_topics = topics
+            self._cache.set_user_cache(message.chat.id, user_cache)
+
             self._bot.send_message(
                 message.chat.id,
                 "Choose neaded topic",
-                reply_markup=record_topics_markup(result.data),
+                reply_markup=record_topics_markup(topics),
             )
         elif result.status == UsecaseStatus.UNAUTHORIZED:
             self._bot.send_message(

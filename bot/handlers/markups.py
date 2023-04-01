@@ -41,15 +41,15 @@ def record_titles_markup(record_dtos: list[GetRecordDTO]) -> types.InlineKeyboar
     return markup
 
 
-def record_topics_markup(topics: list[str]) -> types.InlineKeyboardMarkup:
+def record_topics_markup(topics: list[dict]) -> types.InlineKeyboardMarkup:
     markup = types.InlineKeyboardMarkup()
     for topic in topics:
         btn = types.InlineKeyboardButton(
-            topic,
+            topic["value"],
             callback_data=json.dumps(
                 {
                     "operation": CallbackOperation.GET_RECORDS_BY_TOPIC.value,
-                    "topic": topic,
+                    "topic_id": topic["id"],
                 }
             ),
         )

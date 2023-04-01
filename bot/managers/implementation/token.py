@@ -1,6 +1,6 @@
 from bot.infrastructure.api.errors import UnauthorizedError
 from bot.infrastructure.api.knowledge_keeper_api.auth import KnowledgeKeeperAPIAuth
-from bot.infrastructure.repository.token_repo import TokenRepository
+from bot.infrastructure.repository.token import TokenRepository
 
 
 class TokenManagerImpl:
@@ -14,7 +14,7 @@ class TokenManagerImpl:
         self.with_tokens_refresh = False
 
     def manage_tokens(self, telegram_id) -> str:
-        tokens = self._token_repo.get_tokens_by_tg_id(telegram_id)
+        tokens = self._token_repo.get_tokens(telegram_id)
 
         if not tokens:
             raise UnauthorizedError

@@ -1,6 +1,8 @@
 import punq
 from logging import Logger
 from redis import Redis
+from bot.cache.cache import Cache
+from bot.cache.implementation.cache_redis import CacheRedis
 from bot.infrastructure.api.knowledge_keeper_api.implementation.record import (
     KnowledgeKeeperAPIRecordImpl,
 )
@@ -20,7 +22,7 @@ from logger.logger import create_logger
 from bot.infrastructure.repository.implementation.token_redis import (
     TokenRepositoryRedis,
 )
-from bot.infrastructure.repository.token_repo import TokenRepository
+from bot.infrastructure.repository.token import TokenRepository
 from bot.infrastructure.api.knowledge_keeper_api.implementation.auth import (
     KnowledgeKeeperAPIAuthImpl,
 )
@@ -39,6 +41,8 @@ r_client = Redis(
 
 di_container.register(Redis, instance=r_client)
 di_container.register(TokenRepository, TokenRepositoryRedis)
+
+di_container.register(Cache, CacheRedis)
 
 di_container.register(TokenManager, TokenManagerImpl)
 di_container.register(KnowledgeKeeperAPIAuth, KnowledgeKeeperAPIAuthImpl)

@@ -6,13 +6,14 @@ from bot.models.tokens import Tokens
 class TokenRepositoryRedis:
     def __init__(self, r_client: Redis):
         self._r_client = r_client
+        self.tokens_mark = "_tokens"
 
-    def get_tokens_by_tg_id(self, telegram_id) -> Tokens | None:
-        token_str = self._r_client.get(telegram_id)
+    def get_tokens(self, telegram_id) -> Tokens | None:
+        token_str = self._r_client.get(f"{telegram_id}{self.tokens_mark}")
         if not token_str:
             return None
 
-        token_json = json.loads(self._r_client.get(telegram_id))
+        token_json = json.loads(token_str)
 
         return Tokens(
             access_token=token_json["access_token"],
@@ -20,11 +21,4 @@ class TokenRepositoryRedis:
         )
 
     def set_tokens(self, telegram_id, tokens: Tokens) -> None:
-        tokens_json = json.dumps(
-            {
-                "access_token": tokens.access_token,
-                "refresh_token": tokens.refresh_token,
-            }
-        )
-
-        self._r_client.set(telegram_id, tokens_json)
+        self._r_client.set(f"{telegram_id}{self.tokens_mark}", tokens.json())
