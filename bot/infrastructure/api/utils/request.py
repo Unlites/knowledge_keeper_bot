@@ -20,7 +20,6 @@ def do_request(
             headers=headers,
             params=params,
         )
-        print(response.content)
 
         data = response.json()["data"]
         if response.status_code == HTTPStatus.UNAUTHORIZED:
