@@ -1,4 +1,4 @@
-from bot.dto.record import GetRecordDTO
+from bot.dto.record import ResponseRecordDTO
 
 
 def validation_errors(errors: list[dict]) -> str:
@@ -9,7 +9,7 @@ def validation_errors(errors: list[dict]) -> str:
     return converted_errors_string
 
 
-def displaying_record(record_dto: GetRecordDTO) -> str:
+def displaying_record(record_dto: ResponseRecordDTO) -> str:
     return (
         f"<b>Topic</b>: {record_dto.topic}\n"
         + f"<b>Title</b>: {record_dto.title}\n<b>Content</b>: {record_dto.content}"

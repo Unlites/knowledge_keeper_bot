@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 
 
-class CreateRecordDTO(BaseModel):
+class RequestRecordDTO(BaseModel):
     topic: str = Field(min_length=1, max_length=100, default="")
     title: str = Field(min_length=1, max_length=255, default="")
     content: str = Field(min_lenght=1, max_length=3000, default="")
@@ -10,7 +10,7 @@ class CreateRecordDTO(BaseModel):
         validate_assignment = True
 
 
-class GetRecordDTO(BaseModel):
+class ResponseRecordDTO(BaseModel):
     id: int
     topic: str
     title: str

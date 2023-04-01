@@ -8,3 +8,5 @@ class CallbackOperation(Enum):
     GET_RECORDS_BY_TOPIC = 4
     GET_RECORDS_BY_TOPIC_SWITCH_PAGE = 5
     CANCEL = 6
+    UPDATE_RECORD = 7
+    DELETE_RECORD = 8

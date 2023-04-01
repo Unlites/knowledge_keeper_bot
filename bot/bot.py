@@ -2,12 +2,14 @@ import json
 from telebot import types, TeleBot
 from bot.handlers.callback_data import CallbackOperation
 from bot.handlers.record.create import CreateRecordHandler
+from bot.handlers.record.delete import DeleteRecordHandler
 from bot.handlers.record.get_all import GetAllRecordsHandler
 from bot.handlers.record.get_all import GetAllRecordsSwitchPageHandler
 from bot.handlers.record.get_by_id import GetRecordByIdHandler
 from bot.handlers.record.get_by_topic import GetRecordsByTopicSwitchPageHandler
 from bot.handlers.record.get_by_topic import GetRecordsByTopic
 from bot.handlers.record.get_topics import GetTopicsHandler
+from bot.handlers.record.update import UpdateRecordHandler
 from bot.handlers.start.start import StartHandler
 from bot.handlers.record.search_by_title import SearchRecordsByTitleHandler
 from bot.handlers.record.search_by_title import SearchRecordsByTitleSwitchPageHandler
@@ -44,6 +46,8 @@ def register_handlers(bot: TeleBot) -> None:
         CallbackOperation.SEARCH_RECORDS_BY_TITLE_SWITCH_PAGE.value: SearchRecordsByTitleSwitchPageHandler,
         CallbackOperation.GET_RECORDS_BY_TOPIC.value: GetRecordsByTopic,
         CallbackOperation.GET_RECORDS_BY_TOPIC_SWITCH_PAGE.value: GetRecordsByTopicSwitchPageHandler,
+        CallbackOperation.UPDATE_RECORD.value: UpdateRecordHandler,
+        CallbackOperation.DELETE_RECORD.value: DeleteRecordHandler,
         CallbackOperation.CANCEL.value: _remove_step_handler,
     }
 

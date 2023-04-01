@@ -1,23 +1,24 @@
 import json
-from telebot import TeleBot
-from telebot.types import CallbackQuery
+from telebot import TeleBot, types
 from bot.di_container import di_container
 from bot.dto.usecase_result import UsecaseStatus
-from bot.handlers.markups import auth_markup
+from bot.handlers.markups import auth_markup, record_actions_markup
 from bot.handlers.message_converting import displaying_record
 from bot.usecases.record.get_by_id import GetRecordByIdUsecase
 
 
 class GetRecordByIdHandler:
-    def __init__(self, callback: CallbackQuery, bot: TeleBot) -> None:
+    def __init__(self, callback: types.CallbackQuery, bot: TeleBot) -> None:
         self._bot = bot
         self._usecase = di_container.resolve(GetRecordByIdUsecase)
         self._handle(callback)
 
-    def _handle(self, callback: CallbackQuery) -> None:
+    def _handle(self, callback: types.CallbackQuery) -> None:
+        record_id = json.loads(callback.data)["id"]
+
         result = self._usecase(
             callback.message.chat.id,
-            record_id=json.loads(callback.data)["id"],
+            record_id,
         )
 
         if result.status == UsecaseStatus.SUCCESS:
@@ -32,6 +33,7 @@ class GetRecordByIdHandler:
                 callback.message.chat.id,
                 displaying_record(result.data),
                 parse_mode="html",
+                reply_markup=record_actions_markup(record_id),
             )
         elif result.status == UsecaseStatus.UNAUTHORIZED:
             self._bot.send_message(

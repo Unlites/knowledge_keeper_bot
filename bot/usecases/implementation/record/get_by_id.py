@@ -1,5 +1,5 @@
 from logging import Logger
-from bot.dto.record import GetRecordDTO
+from bot.dto.record import ResponseRecordDTO
 from bot.dto.usecase_result import UsecaseResult, UsecaseStatus
 from bot.infrastructure.api.errors import KnowledgeKeeperAPIError
 from bot.infrastructure.api.errors import UnauthorizedError
@@ -25,7 +25,7 @@ class GetRecordByIdUsecaseImpl(GetRecordByIdUsecase):
 
             record = self._record_api.get_by_id(access_token, record_id)
 
-            record_dto = GetRecordDTO(
+            record_dto = ResponseRecordDTO(
                 id=record.id,
                 topic=record.topic,
                 title=record.title,

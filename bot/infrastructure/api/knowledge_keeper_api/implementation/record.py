@@ -9,7 +9,7 @@ class KnowledgeKeeperAPIRecordImpl(KnowledgeKeeperAPIRecord):
     def __init__(self) -> None:
         self._url = Config.API_URL + "/record"
 
-    def create_record(self, access_token, record: Record) -> None:
+    def create(self, access_token, record: Record) -> None:
         do_request(
             "POST",
             self._url,
@@ -17,7 +17,7 @@ class KnowledgeKeeperAPIRecordImpl(KnowledgeKeeperAPIRecord):
             headers=bearer_authorization(access_token),
         )
 
-    def get_all_records(
+    def get_all(
         self,
         access_token,
         limit,
@@ -67,5 +67,20 @@ class KnowledgeKeeperAPIRecordImpl(KnowledgeKeeperAPIRecord):
         return do_request(
             "GET",
             f"{self._url}/topics",
+            headers=bearer_authorization(access_token),
+        )
+
+    def update(self, access_token, record_id, record: Record) -> None:
+        do_request(
+            "PUT",
+            f"{self._url}/{record_id}",
+            body=record.json(),
+            headers=bearer_authorization(access_token),
+        )
+
+    def delete(self, access_token, record_id) -> None:
+        do_request(
+            "DELETE",
+            f"{self._url}/{record_id}",
             headers=bearer_authorization(access_token),
         )

@@ -1,6 +1,6 @@
 import json
 from telebot import types
-from bot.dto.record import GetRecordDTO
+from bot.dto.record import ResponseRecordDTO
 from bot.handlers.callback_data import CallbackOperation
 from config.config import Config
 
@@ -23,7 +23,9 @@ def auth_markup(telegram_id) -> types.InlineKeyboardMarkup:
     return markup
 
 
-def record_titles_markup(record_dtos: list[GetRecordDTO]) -> types.InlineKeyboardMarkup:
+def record_titles_markup(
+    record_dtos: list[ResponseRecordDTO],
+) -> types.InlineKeyboardMarkup:
     markup = types.InlineKeyboardMarkup()
 
     for record_dto in record_dtos:
@@ -69,5 +71,31 @@ def cancelation_markup() -> types.InlineKeyboardMarkup:
         ),
     )
     markup.add(btn)
+
+    return markup
+
+
+def record_actions_markup(record_id) -> types.InlineKeyboardMarkup:
+    markup = types.InlineKeyboardMarkup()
+    update_btn = types.InlineKeyboardButton(
+        "Update \U0001F504",
+        callback_data=json.dumps(
+            {
+                "operation": CallbackOperation.UPDATE_RECORD.value,
+                "id": record_id,
+            }
+        ),
+    )
+    delete_btn = types.InlineKeyboardButton(
+        "Delete \U0001F5D1",
+        callback_data=json.dumps(
+            {
+                "operation": CallbackOperation.DELETE_RECORD.value,
+                "id": record_id,
+            }
+        ),
+    )
+
+    markup.add(update_btn, delete_btn)
 
     return markup

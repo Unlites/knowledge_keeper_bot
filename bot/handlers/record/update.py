@@ -1,18 +1,20 @@
-from telebot import types, TeleBot
+import json
+from telebot import TeleBot, types
 from bot.di_container import di_container
 from bot.dto.record import RequestRecordDTO
 from bot.dto.usecase_result import UsecaseStatus
 from bot.handlers.markups import auth_markup, cancelation_markup
 from bot.handlers.middleware import validation
-from bot.usecases.record.create import CreateRecordUsecase
+from bot.usecases.record.update import UpdateRecordUsecase
 
 
-class CreateRecordHandler:
-    def __init__(self, message: types.Message, bot: TeleBot) -> None:
+class UpdateRecordHandler:
+    def __init__(self, callback: types.CallbackQuery, bot: TeleBot) -> None:
         self._bot = bot
-        self._usecase = di_container.resolve(CreateRecordUsecase)
+        self._usecase = di_container.resolve(UpdateRecordUsecase)
         self._dto = RequestRecordDTO()
-        self._handle(message)
+        self._callback_data = json.loads(callback.data)
+        self._handle(callback.message)
 
     def _handle(self, message: types.Message) -> None:
         self._ask_topic(message)
@@ -54,14 +56,14 @@ class CreateRecordHandler:
     @validation
     def _set_content(self, message: types.Message) -> None:
         self._dto.content = message.text
-        self._create_record(message)
+        self._update_record(message)
 
-    def _create_record(self, message: types.Message) -> None:
-        result = self._usecase(message.chat.id, self._dto)
+    def _update_record(self, message: types.Message) -> None:
+        result = self._usecase(message.chat.id, self._callback_data["id"], self._dto)
         if result.status == UsecaseStatus.SUCCESS:
             self._bot.send_message(
                 message.chat.id,
-                "Record created successfully! \u2705",
+                "Record updated successfully! \u2705",
             )
         elif result.status == UsecaseStatus.UNAUTHORIZED:
             self._bot.send_message(
@@ -72,5 +74,5 @@ class CreateRecordHandler:
         else:
             self._bot.send_message(
                 message.chat.id,
-                f"Failed to create record - {result.data} \U0001F6AB",
+                f"Failed to update record - {result.data} \U0001F6AB",
             )

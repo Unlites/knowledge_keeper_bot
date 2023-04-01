@@ -4,11 +4,11 @@ from bot.models.record import Record
 
 class KnowledgeKeeperAPIRecord(ABC):
     @abstractmethod
-    def create_record(self, access_token, record: Record) -> None:
+    def create(self, access_token, record: Record) -> None:
         pass
 
     @abstractmethod
-    def get_all_records(
+    def get_all(
         self,
         access_token,
         limit,
@@ -24,4 +24,12 @@ class KnowledgeKeeperAPIRecord(ABC):
 
     @abstractmethod
     def get_topics(self, access_token) -> list[str]:
+        pass
+
+    @abstractmethod
+    def update(self, access_token, record_id, record: Record) -> None:
+        pass
+
+    @abstractmethod
+    def delete(self, access_token, record_id) -> None:
         pass
