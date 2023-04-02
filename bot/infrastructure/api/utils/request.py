@@ -1,4 +1,5 @@
 import requests
+from requests.exceptions import ConnectionError
 from http import HTTPStatus
 from bot.infrastructure.api.errors import KnowledgeKeeperAPIConnectionError
 from bot.infrastructure.api.errors import KnowledgeKeeperAPIError
