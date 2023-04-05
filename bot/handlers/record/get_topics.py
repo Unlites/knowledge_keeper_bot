@@ -17,7 +17,6 @@ class GetTopicsHandler:
         self._bot = bot
         self._usecase = di_container.resolve(GetTopicsUsecase)
         self._cache = di_container.resolve(Cache)
-        # self._next_operation = CallbackOperation.GET_RECORDS_BY_TOPIC
         self._next_operation = next_operation
         self._handle(message)
 
