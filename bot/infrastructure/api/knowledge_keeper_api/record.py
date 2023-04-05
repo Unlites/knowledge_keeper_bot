@@ -14,6 +14,7 @@ class KnowledgeKeeperAPIRecord(ABC):
         limit,
         offset,
         topic=None,
+        subtopic=None,
         title=None,
     ) -> list[Record]:
         pass
@@ -24,6 +25,10 @@ class KnowledgeKeeperAPIRecord(ABC):
 
     @abstractmethod
     def get_topics(self, access_token) -> list[str]:
+        pass
+
+    @abstractmethod
+    def get_subtopics(self, access_token) -> list[str]:
         pass
 
     @abstractmethod

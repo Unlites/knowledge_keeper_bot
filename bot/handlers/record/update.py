@@ -22,40 +22,58 @@ class UpdateRecordHandler:
     def _ask_topic(self, message: types.Message) -> None:
         self._bot.send_message(
             message.chat.id,
-            "Enter record topic \U0001F4DD",
+            "Enter record topic or '-' to skip \U0001F4DD",
             reply_markup=cancelation_markup(),
         )
         self._bot.register_next_step_handler(message, self._set_topic)
 
     @validation
     def _set_topic(self, message: types.Message) -> None:
-        self._dto.topic = message.text
+        if message.text != "-":
+            self._dto.topic = message.text
+
+        self._ask_subtopic(message)
+
+    def _ask_subtopic(self, message: types.Message) -> None:
+        self._bot.send_message(
+            message.chat.id,
+            "Enter record subtopic or '-' to skip \U0001F4DD",
+            reply_markup=cancelation_markup(),
+        )
+        self._bot.register_next_step_handler(message, self._set_subtopic)
+
+    @validation
+    def _set_subtopic(self, message: types.Message) -> None:
+        if message.text != "-":
+            self._dto.subtopic = message.text
         self._ask_title(message)
 
     def _ask_title(self, message: types.Message) -> None:
         self._bot.send_message(
             message.chat.id,
-            "Enter record title \U0001F4DD",
+            "Enter record title or '-' to skip \U0001F4DD",
             reply_markup=cancelation_markup(),
         )
         self._bot.register_next_step_handler(message, self._set_title)
 
     @validation
     def _set_title(self, message: types.Message) -> None:
-        self._dto.title = message.text
+        if message.text != "-":
+            self._dto.title = message.text
         self._ask_content(message)
 
     def _ask_content(self, message: types.Message) -> None:
         self._bot.send_message(
             message.chat.id,
-            "Enter record content \U0001F4DD",
+            "Enter record content or '-' to skip \U0001F4DD",
             reply_markup=cancelation_markup(),
         )
         self._bot.register_next_step_handler(message, self._set_content)
 
     @validation
     def _set_content(self, message: types.Message) -> None:
-        self._dto.content = message.text
+        if message.text != "-":
+            self._dto.content = message.text
         self._update_record(message)
 
     def _update_record(self, message: types.Message) -> None:

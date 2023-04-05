@@ -28,6 +28,20 @@ class CreateRecordHandler:
     @validation
     def _set_topic(self, message: types.Message) -> None:
         self._dto.topic = message.text
+        self._ask_subtopic(message)
+
+    def _ask_subtopic(self, message: types.Message) -> None:
+        self._bot.send_message(
+            message.chat.id,
+            "Enter record subtopic (optional, enter '-' to skip) \U0001F4DD",
+            reply_markup=cancelation_markup(),
+        )
+        self._bot.register_next_step_handler(message, self._set_subtopic)
+
+    @validation
+    def _set_subtopic(self, message: types.Message) -> None:
+        if message.text != "-":
+            self._dto.subtopic = message.text
         self._ask_title(message)
 
     def _ask_title(self, message: types.Message) -> None:

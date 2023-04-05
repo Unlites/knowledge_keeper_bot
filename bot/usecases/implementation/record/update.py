@@ -21,16 +21,23 @@ class UpdateRecordUsecaseImpl(UpdateRecordUsecase):
         self._token_manager = token_manager
 
     def __call__(
-        self, telegram_id, record_id, record_dto: RequestRecordDTO
+        self,
+        telegram_id,
+        record_id,
+        record_dto: RequestRecordDTO,
     ) -> UsecaseResult:
         try:
             access_token = self._token_manager.manage_tokens(telegram_id)
 
+            current_record = self._record_api.get_by_id(access_token, record_id)
+
             record = Record(
-                topic=record_dto.topic,
-                title=record_dto.title,
-                content=record_dto.content,
+                topic=record_dto.topic or current_record.topic,
+                subtopic=record_dto.subtopic or current_record.subtopic,
+                title=record_dto.title or current_record.title,
+                content=record_dto.content or current_record.content,
             )
+
             self._record_api.update(access_token, record_id, record)
 
             return UsecaseResult()
@@ -42,4 +49,4 @@ class UpdateRecordUsecaseImpl(UpdateRecordUsecase):
                 return UsecaseResult(status=UsecaseStatus.UNAUTHORIZED)
 
             self._token_manager.with_tokens_refresh = True
-            return self.__call__(telegram_id, record_id)
+            return self.__call__(telegram_id, record_id, record_dto)

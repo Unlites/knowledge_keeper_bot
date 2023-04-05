@@ -11,6 +11,6 @@ def validation_errors(errors: list[dict]) -> str:
 
 def displaying_record(record_dto: ResponseRecordDTO) -> str:
     return (
-        f"<b>Topic</b>: {record_dto.topic}\n"
+        f"<b>Topic</b>: {record_dto.topic}\n<b>Subtopic</b>: {record_dto.subtopic}\n"
         + f"<b>Title</b>: {record_dto.title}\n<b>Content</b>: {record_dto.content}"
     )

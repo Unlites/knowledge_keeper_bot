@@ -10,6 +10,7 @@ class GetAllRecordsUsecase(ABC):
         limit,
         offset,
         topic=None,
+        subtopic=None,
         title=None,
     ) -> UsecaseResult:
         pass

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from bot.models.cache import UserCache
+from bot.cache.user import UserCache
 
 
 class Cache(ABC):

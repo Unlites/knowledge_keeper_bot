@@ -43,15 +43,35 @@ def record_titles_markup(
     return markup
 
 
-def record_topics_markup(topics: list[dict]) -> types.InlineKeyboardMarkup:
+def record_topics_markup(
+    topics: list[dict],
+    operation: CallbackOperation,
+) -> types.InlineKeyboardMarkup:
     markup = types.InlineKeyboardMarkup()
     for topic in topics:
         btn = types.InlineKeyboardButton(
             topic["value"],
             callback_data=json.dumps(
                 {
-                    "operation": CallbackOperation.GET_RECORDS_BY_TOPIC.value,
+                    "operation": operation.value,
                     "topic_id": topic["id"],
+                }
+            ),
+        )
+        markup.add(btn)
+
+    return markup
+
+
+def record_subtopics_markup(subtopics: list[dict]) -> types.InlineKeyboardMarkup:
+    markup = types.InlineKeyboardMarkup()
+    for subtopic in subtopics:
+        btn = types.InlineKeyboardButton(
+            subtopic["value"],
+            callback_data=json.dumps(
+                {
+                    "operation": CallbackOperation.GET_RECORDS_BY_SUBTOPIC.value,
+                    "subtopic_id": subtopic["id"],
                 }
             ),
         )

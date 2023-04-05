@@ -12,12 +12,14 @@ from bot.managers.implementation.token import TokenManagerImpl
 from bot.usecases.implementation.record.create import CreateRecordUsecaseImpl
 from bot.usecases.implementation.record.delete import DeleteRecordUsecaseImpl
 from bot.usecases.implementation.record.get_by_id import GetRecordByIdUsecaseImpl
+from bot.usecases.implementation.record.get_subtopics import GetSubtopicsUsecaseImpl
 from bot.usecases.implementation.record.get_topics import GetTopicsUsecaseImpl
 from bot.usecases.implementation.record.update import UpdateRecordUsecaseImpl
 from bot.usecases.record.create import CreateRecordUsecase
 from bot.usecases.implementation.record.get_all import GetAllRecordsUsecaseImpl
 from bot.usecases.record.delete import DeleteRecordUsecase
 from bot.usecases.record.get_by_id import GetRecordByIdUsecase
+from bot.usecases.record.get_subtopics import GetSubtopicsUsecase
 from bot.usecases.record.get_topics import GetTopicsUsecase
 from bot.usecases.record.get_all import GetAllRecordsUsecase
 from bot.usecases.record.update import UpdateRecordUsecase
@@ -57,5 +59,6 @@ di_container.register(CreateRecordUsecase, CreateRecordUsecaseImpl)
 di_container.register(GetAllRecordsUsecase, GetAllRecordsUsecaseImpl)
 di_container.register(GetRecordByIdUsecase, GetRecordByIdUsecaseImpl)
 di_container.register(GetTopicsUsecase, GetTopicsUsecaseImpl)
+di_container.register(GetSubtopicsUsecase, GetSubtopicsUsecaseImpl)
 di_container.register(UpdateRecordUsecase, UpdateRecordUsecaseImpl)
 di_container.register(DeleteRecordUsecase, DeleteRecordUsecaseImpl)

@@ -1,3 +1,4 @@
+from bot.handlers.callback_data import CallbackOperation
 from telebot import types, TeleBot
 from bot.cache.cache import Cache
 from bot.di_container import di_container
@@ -11,6 +12,7 @@ class GetTopicsHandler:
         self._bot = bot
         self._usecase = di_container.resolve(GetTopicsUsecase)
         self._cache = di_container.resolve(Cache)
+        self._next_operation = CallbackOperation.GET_RECORDS_BY_TOPIC
         self._handle(message)
 
     def _handle(self, message: types.Message) -> None:
@@ -35,7 +37,7 @@ class GetTopicsHandler:
             self._bot.send_message(
                 message.chat.id,
                 "Choose neaded topic",
-                reply_markup=record_topics_markup(topics),
+                reply_markup=record_topics_markup(topics, self._next_operation),
             )
         elif result.status == UsecaseStatus.UNAUTHORIZED:
             self._bot.send_message(

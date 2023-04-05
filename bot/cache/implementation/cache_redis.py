@@ -1,6 +1,6 @@
 import json
 from redis import Redis
-from bot.models.cache import UserCache
+from bot.cache.user import UserCache
 
 
 class CacheRedis:
@@ -17,6 +17,7 @@ class CacheRedis:
 
         return UserCache(
             found_topics=cache.get("found_topics"),
+            found_subtopics=cache.get("found_subtopics"),
         )
 
     def set_user_cache(self, telegram_id, cache: UserCache) -> None:

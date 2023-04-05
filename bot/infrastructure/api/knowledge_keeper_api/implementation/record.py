@@ -23,6 +23,7 @@ class KnowledgeKeeperAPIRecordImpl(KnowledgeKeeperAPIRecord):
         limit,
         offset,
         topic=None,
+        subtopic=None,
         title=None,
     ) -> list[Record]:
         data = do_request(
@@ -30,6 +31,7 @@ class KnowledgeKeeperAPIRecordImpl(KnowledgeKeeperAPIRecord):
             self._url,
             params={
                 "topic": topic,
+                "subtopic": subtopic,
                 "title": title,
                 "limit": limit,
                 "offset": offset,
@@ -42,6 +44,7 @@ class KnowledgeKeeperAPIRecordImpl(KnowledgeKeeperAPIRecord):
                 Record(
                     id=record["id"],
                     topic=record["topic"],
+                    subtopic=record["subtopic"],
                     title=record["title"],
                     content=record["content"],
                 )
@@ -59,6 +62,7 @@ class KnowledgeKeeperAPIRecordImpl(KnowledgeKeeperAPIRecord):
         return Record(
             id=data["id"],
             topic=data["topic"],
+            subtopic=data["subtopic"],
             title=data["title"],
             content=data["content"],
         )
@@ -67,6 +71,13 @@ class KnowledgeKeeperAPIRecordImpl(KnowledgeKeeperAPIRecord):
         return do_request(
             "GET",
             f"{self._url}/topics",
+            headers=bearer_authorization(access_token),
+        )
+
+    def get_subtopics(self, access_token) -> list[str]:
+        return do_request(
+            "GET",
+            f"{self._url}/subtopics",
             headers=bearer_authorization(access_token),
         )
 

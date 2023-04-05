@@ -28,6 +28,7 @@ class GetRecordByIdUsecaseImpl(GetRecordByIdUsecase):
             record_dto = ResponseRecordDTO(
                 id=record.id,
                 topic=record.topic,
+                subtopic=record.subtopic,
                 title=record.title,
                 content=record.content,
             )

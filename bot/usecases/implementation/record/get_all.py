@@ -25,6 +25,7 @@ class GetAllRecordsUsecaseImpl(GetAllRecordsUsecase):
         limit,
         offset,
         topic=None,
+        subtopic=None,
         title=None,
     ) -> UsecaseResult:
         try:
@@ -35,6 +36,7 @@ class GetAllRecordsUsecaseImpl(GetAllRecordsUsecase):
                 limit,
                 offset,
                 topic=topic,
+                subtopic=subtopic,
                 title=title,
             )
 
@@ -44,6 +46,7 @@ class GetAllRecordsUsecaseImpl(GetAllRecordsUsecase):
                     ResponseRecordDTO(
                         id=record.id,
                         topic=record.topic,
+                        subtopic=record.subtopic,
                         title=record.title,
                         content=record.content,
                     )

@@ -11,7 +11,7 @@ def validation(func):
             self._bot.send_message(
                 message.chat.id,
                 f"Input values is incorrect:\
-                {message_converting.validation_errors(e.errors())} \uE252",
+                {message_converting.validation_errors(e.errors())} \u26A0\uFE0F",
             )
 
     return decorator

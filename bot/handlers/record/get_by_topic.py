@@ -1,5 +1,4 @@
 import json
-from logging import Logger
 from telebot import types, TeleBot
 from bot.cache.cache import Cache
 from bot.di_container import di_container
@@ -8,7 +7,7 @@ from bot.handlers.record.get_all import BaseGetRecordsHandler
 from bot.usecases.record.get_all import GetAllRecordsUsecase
 
 
-class GetRecordsByTopic(BaseGetRecordsHandler):
+class GetRecordsByTopicHandler(BaseGetRecordsHandler):
     def __init__(self, callback: types.CallbackQuery, bot: TeleBot) -> None:
         self._bot = bot
         self._usecase = di_container.resolve(GetAllRecordsUsecase)
@@ -28,7 +27,7 @@ class GetRecordsByTopic(BaseGetRecordsHandler):
         return user_cache.found_topics[self._callback_data["topic_id"]]["value"]
 
 
-class GetRecordsByTopicSwitchPageHandler(GetRecordsByTopic):
+class GetRecordsByTopicSwitchPageHandler(GetRecordsByTopicHandler):
     def __init__(self, callback: types.CallbackQuery, bot: TeleBot) -> None:
         self._callback_data = json.loads(callback.data)
         super().__init__(callback, bot)

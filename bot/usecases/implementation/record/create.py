@@ -26,6 +26,7 @@ class CreateRecordUsecaseImpl(CreateRecordUsecase):
 
             record = Record(
                 topic=record_dto.topic,
+                subtopic=record_dto.subtopic,
                 title=record_dto.title,
                 content=record_dto.content,
             )
