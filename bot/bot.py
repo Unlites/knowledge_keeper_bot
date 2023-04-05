@@ -29,11 +29,26 @@ def create_bot() -> TeleBot:
 
     bot.set_my_commands(
         [
-            types.BotCommand("/create", "Create a new record"),
-            types.BotCommand("/subtopics", "Get all records by topic and subtopic"),
-            types.BotCommand("/topic_only", "Get all records by chosen topic only"),
-            types.BotCommand("/last", "Get all last records"),
-            types.BotCommand("/search", "Search records by title"),
+            types.BotCommand(
+                "/create",
+                "Create a new record",
+            ),
+            types.BotCommand(
+                "/get_by_subtopics",
+                "Get all records by topic and subtopic",
+            ),
+            types.BotCommand(
+                "/get_by_topic_only",
+                "Get all records by chosen topic only",
+            ),
+            types.BotCommand(
+                "/get_all_last",
+                "Get all last records",
+            ),
+            types.BotCommand(
+                "/search",
+                "Search records by title",
+            ),
         ]
     )
 
@@ -45,9 +60,9 @@ def register_handlers(bot: TeleBot) -> None:
         "start": StartHandler,
         "create": CreateRecordHandler,
         "search": SearchRecordsByTitleHandler,
-        "last": GetAllRecordsHandler,
-        "subtopics": GetTopicsForSubtopicsHandler,
-        "topic_only": GetTopicsHandler,
+        "get_all_last": GetAllRecordsHandler,
+        "get_by_subtopics": GetTopicsForSubtopicsHandler,
+        "get_by_topic_only": GetTopicsHandler,
     }
 
     callback_handlers = {
@@ -56,9 +71,9 @@ def register_handlers(bot: TeleBot) -> None:
         CallbackOperation.SEARCH_RECORDS_BY_TITLE_SWITCH_PAGE.value: SearchRecordsByTitleSwitchPageHandler,
         CallbackOperation.GET_RECORDS_BY_TOPIC.value: GetRecordsByTopicHandler,
         CallbackOperation.GET_RECORDS_BY_TOPIC_SWITCH_PAGE.value: GetRecordsByTopicSwitchPageHandler,
-        CallbackOperation.GET_SUBTOPICS: GetSubtopicsHandler,
-        CallbackOperation.GET_RECORDS_BY_SUBTOPIC: GetRecordsBySubtopicHandler,
-        CallbackOperation.GET_RECORDS_BY_SUBTOPIC_SWITCH_PAGE: GetRecordsBySubtopicSwitchPageHandler,
+        CallbackOperation.GET_SUBTOPICS.value: GetSubtopicsHandler,
+        CallbackOperation.GET_RECORDS_BY_SUBTOPIC.value: GetRecordsBySubtopicHandler,
+        CallbackOperation.GET_RECORDS_BY_SUBTOPIC_SWITCH_PAGE.value: GetRecordsBySubtopicSwitchPageHandler,
         CallbackOperation.UPDATE_RECORD.value: UpdateRecordHandler,
         CallbackOperation.DELETE_RECORD.value: DeleteRecordHandler,
         CallbackOperation.CANCEL.value: _remove_step_handler,

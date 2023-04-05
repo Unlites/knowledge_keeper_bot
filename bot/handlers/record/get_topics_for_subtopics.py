@@ -5,5 +5,9 @@ from telebot import TeleBot, types
 
 class GetTopicsForSubtopicsHandler(GetTopicsHandler):
     def __init__(self, message: types.Message, bot: TeleBot) -> None:
-        self._next_operation = CallbackOperation.GET_SUBTOPICS
-        super().__init__(message, bot)
+        # self._next_operation = CallbackOperation.GET_SUBTOPICS
+        super().__init__(
+            message,
+            bot,
+            next_operation=CallbackOperation.GET_SUBTOPICS,
+        )

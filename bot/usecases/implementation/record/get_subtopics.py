@@ -17,13 +17,13 @@ class GetSubtopicsUsecaseImpl(GetSubtopicsUsecase):
         self._record_api = record_api
         self._token_manager = token_manager
 
-    def __call__(self, telegram_id) -> UsecaseResult:
+    def __call__(self, telegram_id, topic) -> UsecaseResult:
         try:
             access_token = self._token_manager.manage_tokens(telegram_id)
 
-            topics = self._record_api.get_subtopics(access_token)
+            subtopics = self._record_api.get_subtopics(access_token, topic)
 
-            return UsecaseResult(topics)
+            return UsecaseResult(subtopics)
         except KnowledgeKeeperAPIError as e:
             self._logger.error(f"{telegram_id} - {e.detail}")
             return UsecaseResult(e, status=UsecaseStatus.FAILURE)
@@ -32,4 +32,4 @@ class GetSubtopicsUsecaseImpl(GetSubtopicsUsecase):
                 return UsecaseResult(status=UsecaseStatus.UNAUTHORIZED)
 
             self._token_manager.with_tokens_refresh = True
-            return self.__call__(telegram_id)
+            return self.__call__(telegram_id, topic)

@@ -22,6 +22,7 @@ class BaseGetRecordsHandler:
         current_page=1,
         is_callback=False,
         topic=None,
+        subtopic=None,
         title=None,
         pagination_operation=CallbackOperation.GET_ALL_RECORDS_SWITCH_PAGE,
         displayed_message_text="Choose neaded title",

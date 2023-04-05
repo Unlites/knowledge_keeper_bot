@@ -74,10 +74,11 @@ class KnowledgeKeeperAPIRecordImpl(KnowledgeKeeperAPIRecord):
             headers=bearer_authorization(access_token),
         )
 
-    def get_subtopics(self, access_token) -> list[str]:
+    def get_subtopics(self, access_token, topic) -> list[str]:
         return do_request(
             "GET",
             f"{self._url}/subtopics",
+            params={"topic": topic},
             headers=bearer_authorization(access_token),
         )
 

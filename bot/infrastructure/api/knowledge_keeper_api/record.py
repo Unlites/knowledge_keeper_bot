@@ -28,7 +28,7 @@ class KnowledgeKeeperAPIRecord(ABC):
         pass
 
     @abstractmethod
-    def get_subtopics(self, access_token) -> list[str]:
+    def get_subtopics(self, access_token, topic) -> list[str]:
         pass
 
     @abstractmethod

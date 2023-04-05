@@ -8,11 +8,17 @@ from bot.usecases.record.get_topics import GetTopicsUsecase
 
 
 class GetTopicsHandler:
-    def __init__(self, message: types.Message, bot: TeleBot) -> None:
+    def __init__(
+        self,
+        message: types.Message,
+        bot: TeleBot,
+        next_operation: CallbackOperation = CallbackOperation.GET_RECORDS_BY_TOPIC,
+    ) -> None:
         self._bot = bot
         self._usecase = di_container.resolve(GetTopicsUsecase)
         self._cache = di_container.resolve(Cache)
-        self._next_operation = CallbackOperation.GET_RECORDS_BY_TOPIC
+        # self._next_operation = CallbackOperation.GET_RECORDS_BY_TOPIC
+        self._next_operation = next_operation
         self._handle(message)
 
     def _handle(self, message: types.Message) -> None:
@@ -42,11 +48,11 @@ class GetTopicsHandler:
         elif result.status == UsecaseStatus.UNAUTHORIZED:
             self._bot.send_message(
                 message.chat.id,
-                "You have to sign in!",
+                "You have to sign in! \u26D4\uFE0F",
                 reply_markup=auth_markup(message.chat.id),
             )
         else:
             self._bot.send_message(
                 message.chat.id,
-                f"Failed to get topics - {result.data}",
+                f"Failed to get topics - {result.data} \U0001F6AB",
             )

@@ -16,13 +16,16 @@ class GetSubtopicsHandler:
         self._handle(callback.message)
 
     def _handle(self, message: types.Message) -> None:
-        result = self._usecase(message.chat.id)
+        user_cache = self._cache.get_user_cache(message.chat.id)
+        topic = user_cache.found_topics[self._callback_data["topic_id"]]["value"]
+
+        result = self._usecase(message.chat.id, topic)
 
         if result.status == UsecaseStatus.SUCCESS:
             if not result.data:
                 self._bot.send_message(
                     message.chat.id,
-                    "You haven't created records yet",
+                    "Can't find any record with subtopic \U0001F937\u200D\u2642\uFE0F",
                 )
                 return
 
@@ -30,7 +33,6 @@ class GetSubtopicsHandler:
             for i in range(len(result.data)):
                 subtopics.append({"id": i, "value": result.data[i]})
 
-            user_cache = self._cache.get_user_cache(message.chat.id)
             user_cache.found_subtopics = subtopics
             self._cache.set_user_cache(message.chat.id, user_cache)
 
@@ -42,11 +44,11 @@ class GetSubtopicsHandler:
         elif result.status == UsecaseStatus.UNAUTHORIZED:
             self._bot.send_message(
                 message.chat.id,
-                "You have to sign in!",
+                "You have to sign in! \u26D4\uFE0F",
                 reply_markup=auth_markup(message.chat.id),
             )
         else:
             self._bot.send_message(
                 message.chat.id,
-                f"Failed to get subtopics - {result.data}",
+                f"Failed to get subtopics - {result.data}  \U0001F6AB",
             )
