@@ -1,4 +1,5 @@
 from telebot import types, TeleBot
+from bot.cache.cache import Cache
 from bot.di_container import di_container
 from bot.dto.usecase_result import UsecaseStatus
 from bot.handlers.callback_data import CallbackOperation
@@ -11,6 +12,7 @@ class BaseGetRecordsHandler:
     def __init__(self, message: types.Message, bot: TeleBot) -> None:
         self._bot = bot
         self._usecase = di_container.resolve(GetAllRecordsUsecase)
+        self._cache = di_container.resolve(Cache)
         self._handle(message)
 
     def _handle(self, message: types.Message) -> None:
@@ -21,19 +23,33 @@ class BaseGetRecordsHandler:
         message: types.Message,
         current_page=1,
         is_callback=False,
-        topic=None,
-        subtopic=None,
         title=None,
+        from_topic_id=None,
+        from_subtopic_id=None,
         pagination_operation=CallbackOperation.GET_ALL_RECORDS_SWITCH_PAGE,
         displayed_message_text="Choose neaded title",
     ) -> None:
-        pagination = Pagination(current_page)
+        topic = None
+        subtopic = None
+
+        pagination = Pagination(
+            current_page,
+            from_topic_id,
+            from_subtopic_id,
+        )
+
+        if from_topic_id is not None:
+            topic = self._get_cached_topic(message.chat.id, from_topic_id)
+
+        if from_subtopic_id is not None:
+            subtopic = self._get_cached_subtopic(message.chat.id, from_subtopic_id)
 
         result = self._usecase(
             message.chat.id,
             pagination.limit_for_check_next_page,
             pagination.offset,
             topic=topic,
+            subtopic=subtopic,
             title=title,
         )
 
@@ -48,7 +64,9 @@ class BaseGetRecordsHandler:
             if len(result.data) < pagination.limit_for_check_next_page:
                 pagination.next_page = 0
 
-            titles_markup = record_titles_markup(result.data[: pagination.limit])
+            titles_markup = record_titles_markup(
+                record_dtos=result.data[: pagination.limit],
+            )
             paginated_titles_markup = pagination.paginate(
                 titles_markup,
                 operation=pagination_operation,
@@ -78,3 +96,11 @@ class BaseGetRecordsHandler:
                 message.chat.id,
                 f"Failed to get records - {result.data} \U0001F6AB",
             )
+
+    def _get_cached_topic(self, telegram_id, topic_id):
+        user_cache = self._cache.get_user_cache(telegram_id)
+        return user_cache.found_topics[topic_id]["value"]
+
+    def _get_cached_subtopic(self, telegram_id, subtopic_id) -> str:
+        user_cache = self._cache.get_user_cache(telegram_id)
+        return user_cache.found_subtopics[subtopic_id]["value"]

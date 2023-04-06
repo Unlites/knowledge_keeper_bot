@@ -66,4 +66,5 @@ class GetAllRecordsUsecaseImpl(GetAllRecordsUsecase):
                 offset,
                 title=title,
                 topic=topic,
+                subtopic=subtopic,
             )

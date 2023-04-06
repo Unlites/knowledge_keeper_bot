@@ -18,13 +18,9 @@ class GetRecordsBySubtopicHandler(BaseGetRecordsHandler):
     def _handle(self, message: types.Message) -> None:
         self._get_records(
             message,
-            subtopic=self._get_cached_subtopic(message.chat.id),
+            from_subtopic_id=self._callback_data["subtopic_id"],
             pagination_operation=CallbackOperation.GET_RECORDS_BY_SUBTOPIC_SWITCH_PAGE,
         )
-
-    def _get_cached_subtopic(self, telegram_id) -> str:
-        user_cache = self._cache.get_user_cache(telegram_id)
-        return user_cache.found_topics[self._callback_data["subtopic_id"]]["value"]
 
 
 class GetRecordsBySubtopicSwitchPageHandler(GetRecordsBySubtopicHandler):
@@ -35,7 +31,7 @@ class GetRecordsBySubtopicSwitchPageHandler(GetRecordsBySubtopicHandler):
     def _handle(self, message) -> None:
         self._get_records(
             message,
-            subtopic=self._get_cached_subtopic(message.chat.id),
+            from_subtopic_id=self._callback_data["subtopic_id"],
             current_page=self._callback_data["page"],
             is_callback=True,
             pagination_operation=CallbackOperation.GET_RECORDS_BY_SUBTOPIC_SWITCH_PAGE,

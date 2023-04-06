@@ -5,8 +5,15 @@ from telebot import types
 
 
 class Pagination:
-    def __init__(self, current_page) -> None:
+    def __init__(
+        self,
+        current_page,
+        from_topic_id=None,
+        from_subtopic_id=None,
+    ) -> None:
         self.current_page = current_page
+        self._from_topic_id = from_topic_id
+        self._from_subtopic_id = from_subtopic_id
         self.next_page = current_page + 1
         self.prev_page = current_page - 1
         self.limit = Config.DISPLAY_LIMIT
@@ -21,6 +28,12 @@ class Pagination:
         callback_data = {
             "operation": operation.value,
         }
+
+        if self._from_topic_id is not None:
+            callback_data["topic_id"] = self._from_topic_id
+
+        if self._from_subtopic_id is not None:
+            callback_data["subtopic_id"] = self._from_subtopic_id
 
         if self.next_page:
             callback_data["page"] = self.next_page

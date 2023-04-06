@@ -18,13 +18,9 @@ class GetRecordsByTopicHandler(BaseGetRecordsHandler):
     def _handle(self, message: types.Message) -> None:
         self._get_records(
             message,
-            topic=self._get_cached_topic(message.chat.id),
+            from_topic_id=self._callback_data["topic_id"],
             pagination_operation=CallbackOperation.GET_RECORDS_BY_TOPIC_SWITCH_PAGE,
         )
-
-    def _get_cached_topic(self, telegram_id) -> str:
-        user_cache = self._cache.get_user_cache(telegram_id)
-        return user_cache.found_topics[self._callback_data["topic_id"]]["value"]
 
 
 class GetRecordsByTopicSwitchPageHandler(GetRecordsByTopicHandler):
@@ -35,7 +31,7 @@ class GetRecordsByTopicSwitchPageHandler(GetRecordsByTopicHandler):
     def _handle(self, message) -> None:
         self._get_records(
             message,
-            topic=self._get_cached_topic(message.chat.id),
+            from_topic_id=self._callback_data["topic_id"],
             current_page=self._callback_data["page"],
             is_callback=True,
             pagination_operation=CallbackOperation.GET_RECORDS_BY_TOPIC_SWITCH_PAGE,
