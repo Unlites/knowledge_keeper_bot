@@ -13,3 +13,5 @@ class CallbackOperation(Enum):
     GET_RECORDS_BY_SUBTOPIC = 9
     GET_RECORDS_BY_SUBTOPIC_SWITCH_PAGE = 10
     GET_SUBTOPICS = 11
+    SIGN_IN = 12
+    SIGN_UP = 13

@@ -1,4 +1,6 @@
 import json
+from bot.handlers.auth.sign_in import SignInHandler
+from bot.handlers.auth.sign_up import SignUpHandler
 from bot.handlers.record.get_by_subtopic import (
     GetRecordsBySubtopicHandler,
     GetRecordsBySubtopicSwitchPageHandler,
@@ -77,6 +79,8 @@ def register_handlers(bot: TeleBot) -> None:
         CallbackOperation.UPDATE_RECORD.value: UpdateRecordHandler,
         CallbackOperation.DELETE_RECORD.value: DeleteRecordHandler,
         CallbackOperation.CANCEL.value: _remove_step_handler,
+        CallbackOperation.SIGN_IN.value: SignInHandler,
+        CallbackOperation.SIGN_UP.value: SignUpHandler,
     }
 
     for command, handler in command_handlers.items():

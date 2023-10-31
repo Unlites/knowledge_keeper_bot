@@ -1,4 +1,8 @@
 import punq
+from bot.usecases.auth.sign_in import SignInUsecase
+from bot.usecases.auth.sign_up import SignUpUsecase
+from bot.usecases.implementation.auth.sign_in import SignInUsecaseImpl
+from bot.usecases.implementation.auth.sign_up import SignUpUsecaseImpl
 from logging import Logger
 from redis import Redis
 from bot.cache.cache import Cache
@@ -62,3 +66,5 @@ di_container.register(GetTopicsUsecase, GetTopicsUsecaseImpl)
 di_container.register(GetSubtopicsUsecase, GetSubtopicsUsecaseImpl)
 di_container.register(UpdateRecordUsecase, UpdateRecordUsecaseImpl)
 di_container.register(DeleteRecordUsecase, DeleteRecordUsecaseImpl)
+di_container.register(SignInUsecase, SignInUsecaseImpl)
+di_container.register(SignUpUsecase, SignUpUsecaseImpl)

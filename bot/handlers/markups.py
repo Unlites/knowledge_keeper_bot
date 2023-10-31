@@ -2,7 +2,6 @@ import json
 from telebot import types
 from bot.dto.record import ResponseRecordDTO
 from bot.handlers.callback_data import CallbackOperation
-from config.config import Config
 
 
 def auth_markup(telegram_id) -> types.InlineKeyboardMarkup:
@@ -10,12 +9,20 @@ def auth_markup(telegram_id) -> types.InlineKeyboardMarkup:
 
     sign_in_button = types.InlineKeyboardButton(
         text="Sign In",
-        url=f"{Config.SIGN_IN_URL}?tg_id={telegram_id}",
+        callback_data=json.dumps(
+            {
+                "operation": CallbackOperation.SIGN_IN.value,
+            }
+        ),
     )
 
     sign_up_button = types.InlineKeyboardButton(
         text="Sign Up",
-        url=f"{Config.SIGN_UP_URL}?tg_id={telegram_id}",
+        callback_data=json.dumps(
+            {
+                "operation": CallbackOperation.SIGN_UP.value,
+            }
+        ),
     )
 
     markup.add(sign_in_button, sign_up_button)
